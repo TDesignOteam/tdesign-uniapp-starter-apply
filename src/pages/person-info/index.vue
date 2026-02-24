@@ -1,17 +1,27 @@
 <template>
-  <NavBar title="个人信息" :show-back="true" />
+  <NavBar
+    title="个人信息"
+    :show-back="true"
+  />
   <view class="person-page">
     <view class="form-container">
       <t-cell-group>
         <!-- 设为默认 -->
-        <t-cell title="设为默认" :bordered="false">
+        <t-cell
+          title="设为默认"
+          :bordered="false"
+        >
           <template #right-icon>
             <t-switch v-model="isDefault" />
           </template>
         </t-cell>
 
         <!-- 姓名 -->
-        <t-cell title="姓名" required :bordered="false">
+        <t-cell
+          title="姓名"
+          required
+          :bordered="false"
+        >
           <template #right-icon>
             <t-input
               v-model="formData.name"
@@ -24,14 +34,25 @@
         </t-cell>
 
         <!-- 生日 -->
-        <t-cell title="生日" required :bordered="false" @click="showDatePicker = true">
+        <t-cell
+          title="生日"
+          required
+          :bordered="false"
+          @click="showDatePicker = true"
+        >
           <template #right-icon>
-            <text class="form-value">{{ formData.birthday || '请选择生日' }}</text>
+            <text class="form-value">
+              {{ formData.birthday || '请选择生日' }}
+            </text>
           </template>
         </t-cell>
 
         <!-- 手机号 -->
-        <t-cell title="手机号" required :bordered="false">
+        <t-cell
+          title="手机号"
+          required
+          :bordered="false"
+        >
           <template #right-icon>
             <t-input
               v-model="formData.phone"
@@ -44,7 +65,11 @@
         </t-cell>
 
         <!-- 身份证 -->
-        <t-cell title="身份证" required :bordered="false">
+        <t-cell
+          title="身份证"
+          required
+          :bordered="false"
+        >
           <template #right-icon>
             <t-input
               v-model="formData.idCard"
@@ -57,7 +82,10 @@
         </t-cell>
 
         <!-- 邮箱 -->
-        <t-cell title="邮箱" :bordered="false">
+        <t-cell
+          title="邮箱"
+          :bordered="false"
+        >
           <template #right-icon>
             <t-input
               v-model="formData.email"
@@ -70,9 +98,16 @@
         </t-cell>
 
         <!-- 职业 -->
-        <t-cell title="职业" arrow :bordered="false" @click="showProfessionPicker = true">
+        <t-cell
+          title="职业"
+          arrow
+          :bordered="false"
+          @click="showProfessionPicker = true"
+        >
           <template #right-icon>
-            <text class="form-value">{{ formData.profession || '请选择职业' }}</text>
+            <text class="form-value">
+              {{ formData.profession || '请选择职业' }}
+            </text>
           </template>
         </t-cell>
       </t-cell-group>
@@ -80,13 +115,22 @@
 
     <!-- 底部确认按钮 -->
     <view class="bottom-action">
-      <t-button theme="primary" block size="large" @click="handleConfirm">
+      <t-button
+        theme="primary"
+        block
+        size="large"
+        @click="handleConfirm"
+      >
         确定
       </t-button>
     </view>
 
     <!-- 日期选择器 -->
-    <t-popup :visible="showDatePicker" placement="bottom" @visible-change="onDatePopupChange">
+    <t-popup
+      :visible="showDatePicker"
+      placement="bottom"
+      @visible-change="onDatePopupChange"
+    >
       <t-date-time-picker
         :value="datePickerValue"
         title="选择生日"
@@ -100,7 +144,11 @@
     </t-popup>
 
     <!-- 职业选择器 -->
-    <t-popup :visible="showProfessionPicker" placement="bottom" @visible-change="onProfessionPopupChange">
+    <t-popup
+      :visible="showProfessionPicker"
+      placement="bottom"
+      @visible-change="onProfessionPopupChange"
+    >
       <t-picker
         :value="professionPickerValue"
         title="选择职业"
@@ -115,10 +163,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 
+import NavBar from '@/components/nav-bar.vue';
 import { addPerson } from '@/config/user-info';
 import { formatDate } from '@/utils/date';
-
-import NavBar from '@/components/nav-bar.vue';
 
 
 const isDefault = ref(false);

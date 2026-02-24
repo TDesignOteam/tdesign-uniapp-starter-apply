@@ -1,16 +1,27 @@
 <template>
-  <NavBar title="购买确认" :show-back="true" />
+  <NavBar
+    title="购买确认"
+    :show-back="true"
+  />
   <view class="buy-page">
     <!-- 活动信息 -->
     <view class="activity-info">
-      <text class="activity-info__title">{{ eventTitle }}</text>
+      <text class="activity-info__title">
+        {{ eventTitle }}
+      </text>
       <view class="activity-info__details">
         <view class="activity-info__item">
-          <t-icon name="time" size="32rpx" />
+          <t-icon
+            name="time"
+            size="32rpx"
+          />
           <text>{{ eventDate }}</text>
         </view>
         <view class="activity-info__item">
-          <t-icon name="location" size="32rpx" />
+          <t-icon
+            name="location"
+            size="32rpx"
+          />
           <text>{{ eventLocation }}</text>
         </view>
       </view>
@@ -19,8 +30,15 @@
     <!-- 人员信息 -->
     <view class="section">
       <view class="section__header">
-        <text class="section__title">人员信息</text>
-        <t-button size="extra-small" shape="round" icon="add" @click="addPerson">
+        <text class="section__title">
+          人员信息
+        </text>
+        <t-button
+          size="extra-small"
+          shape="round"
+          icon="add"
+          @click="addPerson"
+        >
           增加人员
         </t-button>
       </view>
@@ -31,7 +49,12 @@
           :class="['card', selectedPersonIds.includes(person.id) ? 'card--active' : '']"
           @click="togglePerson(person.id)"
         >
-          <t-icon v-if="selectedPersonIds.includes(person.id)" name="check" size="32rpx" class="card__icon" />
+          <t-icon
+            v-if="selectedPersonIds.includes(person.id)"
+            name="check"
+            size="32rpx"
+            class="card__icon"
+          />
           <text>{{ person.name }}</text>
         </view>
       </view>
@@ -39,7 +62,9 @@
 
     <!-- 票类场次 -->
     <view class="section">
-      <text class="section__title">票类场次</text>
+      <text class="section__title">
+        票类场次
+      </text>
       <view class="ticket-list">
         <view
           v-for="ticket in tickets"
@@ -47,7 +72,12 @@
           :class="['card', selectedTicketId === ticket.id ? 'card--active' : '']"
           @click="selectedTicketId = ticket.id"
         >
-          <t-icon v-if="selectedTicketId === ticket.id" name="check" size="32rpx" class="card__icon" />
+          <t-icon
+            v-if="selectedTicketId === ticket.id"
+            name="check"
+            size="32rpx"
+            class="card__icon"
+          />
           <text>{{ ticket.date }}</text>
         </view>
       </view>
@@ -55,7 +85,9 @@
 
     <!-- 票档价格 -->
     <view class="section">
-      <text class="section__title">票档价格</text>
+      <text class="section__title">
+        票档价格
+      </text>
       <view class="price-list">
         <view
           v-for="price in prices"
@@ -63,12 +95,24 @@
           :class="['card', selectedPriceId === price.id ? 'card--active' : '']"
           @click="selectedPriceId = price.id"
         >
-          <t-icon v-if="selectedPriceId === price.id" name="check" size="32rpx" class="card__icon" />
+          <t-icon
+            v-if="selectedPriceId === price.id"
+            name="check"
+            size="32rpx"
+            class="card__icon"
+          />
           <view class="price-card">
             <text>{{ price.description }}</text>
             <view class="price-card__info">
-              <text class="price-card__current">{{ price.price }}元</text>
-              <text v-if="price.originalPrice > price.price" class="price-card__original">{{ price.originalPrice }}元</text>
+              <text class="price-card__current">
+                {{ price.price }}元
+              </text>
+              <text
+                v-if="price.originalPrice > price.price"
+                class="price-card__original"
+              >
+                {{ price.originalPrice }}元
+              </text>
             </view>
           </view>
         </view>
@@ -80,7 +124,9 @@
   <view class="bottom-action">
     <view class="bottom-action__info">
       <text>待支付:</text>
-      <text class="bottom-action__price">¥{{ totalPrice }}</text>
+      <text class="bottom-action__price">
+        ¥{{ totalPrice }}
+      </text>
     </view>
     <t-button
       theme="primary"
@@ -98,12 +144,12 @@ import { ref, reactive, computed, onMounted } from 'vue';
 
 import { onLoad } from '@dcloudio/uni-app';
 
-import type { TicketItem, PriceItem } from '@/api/activity';
 import { getActivityDetail, getActivityTickets, getActivityPrices } from '@/api/activity';
+import NavBar from '@/components/nav-bar.vue';
 import { userInfoStore, updateSelectedPersonIds } from '@/config/user-info';
 import { formatDate } from '@/utils/date';
 
-import NavBar from '@/components/nav-bar.vue';
+import type { TicketItem, PriceItem } from '@/api/activity';
 
 
 const activityId = ref('');
@@ -138,9 +184,7 @@ const totalPrice = computed(() => {
 });
 
 /** 是否可以购买 */
-const canPurchase = computed(() => {
-  return selectedPersonIds.value.length > 0 && selectedTicketId.value && selectedPriceId.value;
-});
+const canPurchase = computed(() => selectedPersonIds.value.length > 0 && selectedTicketId.value && selectedPriceId.value);
 
 /** 切换人员选择 */
 function togglePerson(id: string) {
@@ -165,19 +209,19 @@ async function fetchActivityData() {
   if (!activityId.value) return;
 
   try {
-    const activityData = await getActivityDetail(activityId.value);
+    const activityData = (await getActivityDetail(activityId.value)).data;
     eventTitle.value = activityData.title;
     eventDate.value = formatDate(activityData.date);
     eventLocation.value = activityData.address;
 
-    const ticketsData = await getActivityTickets(activityId.value);
+    const ticketsData = (await getActivityTickets(activityId.value)).data;
     tickets.length = 0;
     tickets.push(...ticketsData);
     if (tickets.length > 0) {
       selectedTicketId.value = tickets[0].id;
     }
 
-    const pricesData = await getActivityPrices(activityId.value);
+    const pricesData = (await getActivityPrices(activityId.value)).data;
     prices.length = 0;
     prices.push(...pricesData);
     if (prices.length > 0) {

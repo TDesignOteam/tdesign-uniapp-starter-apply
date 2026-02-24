@@ -36,6 +36,9 @@ export default defineConfig({
             'chevron-left',
             'close',
             'add',
+            'star',
+            'star-filled',
+            'user-add'
           ],
           // 开启调试模式可查看处理日志
           debug: true,

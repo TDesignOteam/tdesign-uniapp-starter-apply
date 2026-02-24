@@ -1,5 +1,8 @@
 <template>
-  <NavBar title="详情" :show-back="true" />
+  <NavBar
+    title="详情"
+    :show-back="true"
+  />
   <view class="detail-page">
     <!-- 横幅图 -->
     <view class="detail-banner">
@@ -13,59 +16,47 @@
         :src="detail.banner || detail.cover"
         mode="aspectFill"
         custom-style="width: 100%; height: 320rpx;"
+        class="detail-banner__image"
       />
     </view>
 
     <!-- 活动嘉宾 -->
-    <view v-if="detail && detail.guestImages && detail.guestImages.length" class="detail-section">
-      <text class="detail-section__title">活动嘉宾</text>
-      <scroll-view scroll-x class="detail-section__scroll">
-        <view class="detail-section__images">
-          <t-image
-            v-for="(img, idx) in detail.guestImages"
-            :key="idx"
-            :src="img"
-            mode="aspectFill"
-            custom-style="width: 240rpx; height: 160rpx; border-radius: 8rpx; margin-right: 16rpx; flex-shrink: 0;"
-          />
-        </view>
-      </scroll-view>
+    <view
+      v-if="detail && guestImages.length > 0"
+      class="detail-section detail-section--animated"
+    >
+      <text class="detail-section__title">
+        活动嘉宾
+      </text>
+      <view class="detail-section__swiper">
+        <ActivitySwiper
+          :list="guestSwiperList"
+          :autoplay="false"
+          :navigation="{ type: 'dots' }"
+          margin-position="right"
+          height="320rpx"
+        />
+      </view>
     </view>
 
     <!-- 活动现场 -->
-    <view v-if="detail && detail.sceneImages && detail.sceneImages.length" class="detail-section">
-      <text class="detail-section__title">活动现场</text>
-      <scroll-view scroll-x class="detail-section__scroll">
-        <view class="detail-section__images">
-          <t-image
-            v-for="(img, idx) in detail.sceneImages"
-            :key="idx"
-            :src="img"
-            mode="aspectFill"
-            custom-style="width: 240rpx; height: 160rpx; border-radius: 8rpx; margin-right: 16rpx; flex-shrink: 0;"
-          />
-        </view>
-      </scroll-view>
-    </view>
-
-    <!-- 活动介绍弹窗 -->
-    <view v-if="detail" class="detail-info">
-      <text class="detail-info__title">{{ detail.title }}</text>
-      <view class="detail-info__meta">
-        <view class="detail-info__item">
-          <t-icon name="time" size="32rpx" />
-          <text>{{ formatDate(detail.date) }}</text>
-        </view>
-        <view class="detail-info__item">
-          <t-icon name="location" size="32rpx" />
-          <text>{{ detail.address }}</text>
-        </view>
+    <view
+      v-if="detail && sceneImages.length > 0"
+      class="detail-section detail-section--animated"
+      style="animation-delay: 0.15s"
+    >
+      <text class="detail-section__title">
+        活动现场
+      </text>
+      <view class="detail-section__swiper">
+        <ActivitySwiper
+          :list="sceneSwiperList"
+          :autoplay="false"
+          :navigation="{ type: 'dots' }"
+          margin-position="right"
+          height="320rpx"
+        />
       </view>
-      <view class="detail-info__score">
-        <t-rate :value="detail.score" size="28rpx" variant="filled" allow-half disabled />
-        <text class="detail-info__score-text">{{ detail.score }}分</text>
-      </view>
-      <text class="detail-info__desc">{{ detail.introduce }}</text>
     </view>
   </view>
 
@@ -73,12 +64,22 @@
   <view class="detail-footer">
     <view class="detail-footer__actions">
       <view class="detail-footer__action">
-        <t-icon name="heart" size="40rpx" />
-        <text class="detail-footer__action-text">收藏</text>
+        <t-icon
+          name="heart"
+          size="40rpx"
+        />
+        <text class="detail-footer__action-text">
+          收藏
+        </text>
       </view>
       <view class="detail-footer__action">
-        <t-icon name="share" size="40rpx" />
-        <text class="detail-footer__action-text">分享</text>
+        <t-icon
+          name="share"
+          size="40rpx"
+        />
+        <text class="detail-footer__action-text">
+          分享
+        </text>
       </view>
     </view>
     <view class="detail-footer__cta">
@@ -91,28 +92,74 @@
       >
         立即购买 {{ priceText }}
       </t-button>
-      <t-button v-else theme="primary" size="large" block disabled>
+      <t-button
+        v-else
+        theme="primary"
+        size="large"
+        block
+        disabled
+      >
         已下架
       </t-button>
     </view>
   </view>
+
+  <!-- 底部弹层：活动信息详情 -->
+  <DetailPopup
+    :detail="detail"
+    :show-bottom-popup="showBottomPopup"
+    :popup-height="popupHeight"
+    @toggle="controlPopup"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 
 import { onLoad } from '@dcloudio/uni-app';
 
-import type { ActivityDetail } from '@/api/activity';
 import { getActivityDetail } from '@/api/activity';
-import { formatDate, isExpired } from '@/utils/date';
-
+import ActivitySwiper from '@/components/activity-swiper.vue';
 import NavBar from '@/components/nav-bar.vue';
+import { isExpired } from '@/utils/date';
+
+
+import DetailPopup from './components/detail-popup.vue';
+
+import type { ActivityDetail } from '@/api/activity';
+import type { SwiperItem } from '@/components/activity-swiper.vue';
 
 
 const activityId = ref('');
 const detail = ref<ActivityDetail | null>(null);
 
+/** 底部弹层展开状态 */
+const showBottomPopup = ref(true);
+
+/** 弹层高度 */
+const popupHeight = computed(() => (showBottomPopup.value ? '80vh' : '182rpx'));
+
+/** 嘉宾图片列表 */
+const guestImages = computed<string[]>(() => detail.value?.guestImages ?? []);
+
+/** 现场图片列表 */
+const sceneImages = computed<string[]>(() => detail.value?.sceneImages ?? []);
+
+/** 构造嘉宾轮播组件数据格式 */
+const guestSwiperList = computed<SwiperItem[]>(() => guestImages.value.map((url, index) => ({
+  id: String(index),
+  name: `活动嘉宾图片${index + 1}`,
+  url,
+})));
+
+/** 构造现场轮播组件数据格式 */
+const sceneSwiperList = computed<SwiperItem[]>(() => sceneImages.value.map((url, index) => ({
+  id: String(index),
+  name: `活动现场图片${index + 1}`,
+  url,
+})));
+
+/** 价格文案 */
 const priceText = computed(() => {
   if (!detail.value) return '';
   const min = detail.value.minPrice ?? 0;
@@ -122,16 +169,22 @@ const priceText = computed(() => {
   return `¥${min}-¥${max}`;
 });
 
+/** 活动是否已结束 */
 const isEnded = computed(() => {
   if (!detail.value?.date) return false;
   return isExpired(detail.value.date);
 });
 
+/** 切换底部弹层 */
+function controlPopup() {
+  showBottomPopup.value = !showBottomPopup.value;
+}
+
 /** 获取活动详情 */
 async function fetchData() {
   try {
     const data = await getActivityDetail(activityId.value);
-    detail.value = data;
+    detail.value = data.data;
   } catch {
     uni.showToast({ title: '活动不存在', icon: 'none' });
     setTimeout(() => {
@@ -161,102 +214,99 @@ onLoad((options) => {
 
 .detail-page {
   padding-bottom: 160rpx;
-  background-color: @bg-color;
+  background-color: #1a1a2e;
+  min-height: 100vh;
 }
 
+/* 横幅图 */
 .detail-banner {
   width: 100%;
+  margin-bottom: 24rpx;
+
+  &__image {
+    opacity: 0;
+    animation: fadeIn 0.4s ease forwards;
+  }
 }
 
+/* 图片渐显动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 区域渐入动画 */
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16rpx);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* 分区 */
 .detail-section {
-  padding: 24rpx;
+  color: #fff;
+  margin-left: 32rpx;
+  margin-bottom: 32rpx;
 
   &__title {
     display: block;
     font-size: @font-size-default;
     font-weight: 600;
-    color: @gy1;
+    text-align: left;
     margin-bottom: 16rpx;
   }
 
-  &__scroll {
-    white-space: nowrap;
+  &__swiper {
+    overflow: hidden;
+    margin-top: 8rpx;
+    position: relative;
   }
 
-  &__images {
-    display: flex;
+  /* 渐入动画修饰类 */
+  &--animated {
+    opacity: 0;
+    animation: sectionFadeIn 0.3s ease forwards;
   }
 }
 
-.detail-info {
-  padding: 24rpx;
-  background-color: @bg-color-white;
-  margin: 16rpx;
-  border-radius: 16rpx;
-
-  &__title {
-    display: block;
-    font-size: 36rpx;
-    font-weight: 600;
-    color: @gy1;
-    margin-bottom: 16rpx;
-  }
-
-  &__meta {
-    margin-bottom: 16rpx;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 8rpx;
-    font-size: @font-size-small;
-    color: @gy2;
-    margin-bottom: 8rpx;
-  }
-
-  &__score {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16rpx;
-  }
-
-  &__score-text {
-    margin-left: 8rpx;
-    font-size: @font-size-mini;
-    color: @gy2;
-  }
-
-  &__desc {
-    display: block;
-    font-size: @font-size-small;
-    color: @gy2;
-    line-height: 44rpx;
-  }
-}
-
+/* 底部操作栏 */
 .detail-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 12000;
   display: flex;
   align-items: center;
   padding: 16rpx 24rpx;
   padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
   background-color: @bg-color-white;
-  box-shadow: 0 -2rpx 8rpx rgba(0, 0, 0, 0.05);
+  // box-shadow: 0 -2rpx 8rpx rgba(0, 0, 0, 0.05);
+  gap: 24rpx;
+  height: --footer-height;
 
   &__actions {
     display: flex;
     gap: 32rpx;
-    margin-right: 24rpx;
   }
 
   &__action {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80rpx;
   }
 
   &__action-text {
@@ -268,5 +318,10 @@ onLoad((options) => {
   &__cta {
     flex: 1;
   }
+}
+
+/* 覆盖 t-swiper 默认定位，让导航指示器居中 */
+:deep(.t-swiper) {
+  position: unset;
 }
 </style>

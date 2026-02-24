@@ -110,16 +110,16 @@ export interface PriceItem {
 }
 
 /** 获取活动详情 */
-export function getActivityDetail(id: string): Promise<ActivityDetail> {
+export function getActivityDetail(id: string): Promise<{data: ActivityDetail}> {
   return request(`/activities/${id}`);
 }
 
 /** 获取活动票类场次 */
-export function getActivityTickets(id: string): Promise<TicketItem[]> {
+export function getActivityTickets(id: string): Promise<{data: TicketItem[]}> {
   return request(`/activities/${id}/tickets`);
 }
 
 /** 获取活动票档价格 */
-export function getActivityPrices(id: string): Promise<PriceItem[]> {
+export function getActivityPrices(id: string): Promise<{data: PriceItem[]}> {
   return request(`/activities/${id}/prices`);
 }

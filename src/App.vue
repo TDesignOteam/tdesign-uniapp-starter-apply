@@ -42,8 +42,22 @@ onHide(() => {
 <style lang="less">
 @import "@tdesign/uniapp/common/style/theme/index.less";
 
+:root {
+  --navbar-height: 48px;
+  --tabbar-height: 56px;
+  --status-bar-height: -46px;
+  --swiper-height: 159.2px;
+  --swiper-width: 283px;
+  --card-height: 120px;
+  --footer-height: 80px;
+
+  --bg-color-page: #ffffff;
+  --bg-color-secondarypage: #f5f6f7;
+  --bg-color-black-colorful: #040000; // 五彩斑斓的黑
+}
+
 page {
-  background-color: #f3f3f3;
+  background-color: #fff;
 }
 
 .page {

@@ -60,7 +60,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-4080420251103001",
     "@dcloudio/uni-mp-xhs": "3.0.0-4080420251103001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4080420251103001",
-    "@tdesign/uniapp": "^0.7.1",
+    "@tdesign/uniapp": "https://pkg.pr.new/Tencent/tdesign-miniprogram/@tdesign/uniapp@4280",
     "dayjs": "^1.11.13",
     "t-comm": "^3.0.25",
     "vue": "^3.4.21"

@@ -1,14 +1,100 @@
 // Mock 数据存储
 const mockStore: Record<string, any> = {};
 
+const ACTIVITY_DETAIL_1 =  {
+  id: '1',
+  title: '2024深圳设计周',
+  cover: '/static/activity/cover1.png',
+  banner: '/static/activity/banner1.png',
+  guestImages: ['/static/mock-imgs/activity/guests1.png', '/static/mock-imgs/activity/guests2.png'],
+  sceneImages: ['/static/mock-imgs/activity/location1.png', '/static/mock-imgs/activity/location2.png'],
+  score: 4.5,
+  minPrice: 0,
+  maxPrice: 0,
+  date: '2225-06-15',
+  domain: ['设计'],
+  type: '展览',
+  address: '深圳会展中心 1号馆',
+  introduce: '深圳设计周是深圳市年度大型设计活动，汇集国内外知名设计师和设计机构。本届设计周以"设计赋能城市"为主题，展出包括工业设计、建筑设计、平面设计等多个领域的优秀作品，为参与者提供灵感碰撞和跨界交流的平台。',
+  interestedCount: 1200,
+  interestedPeople: [
+    { id: '1', name: '设计师小王', avatar: '/static/avatar.jpeg' },
+    { id: '2', name: '创意达人', avatar: '/static/avatar.jpeg' },
+    { id: '3', name: '艺术家老李', avatar: '/static/avatar.jpeg' },
+    { id: '4', name: '产品经理', avatar: '/static/avatar.jpeg' },
+    { id: '5', name: '视觉设计师', avatar: '/static/avatar.jpeg' },
+    { id: '6', name: 'UI小姐姐', avatar: '/static/avatar.jpeg' },
+  ],
+  comments: [
+    { id: 'c1', user: '设计爱好者', avatar: '/static/avatar.jpeg', rating: 5, content: '展览规模宏大，作品质量很高，特别是工业设计展区让人大开眼界。' },
+    { id: 'c2', user: '创意总监', avatar: '/static/avatar.jpeg', rating: 4, content: '每年必来的设计周，今年的互动体验区做得比以往更好了！' },
+    { id: 'c3', user: '平面设计师', avatar: '/static/avatar.jpeg', rating: 4.5, content: '认识了很多同行，交流收获很大，期待明年的活动。' },
+  ],
+};
+const ACTIVITY_DETAIL_2 =  {
+  id: '2',
+  title: 'Vue Conf 2024 技术大会',
+  cover: '/static/activity/cover2.png',
+  banner: '/static/activity/banner2.png',
+  guestImages: ['/static/mock-imgs/activity/guests1.png', '/static/mock-imgs/activity/guests2.png'],
+  sceneImages: ['/static/mock-imgs/activity/location1.png', '/static/mock-imgs/activity/location2.png'],
+  score: 4.8,
+  minPrice: 199,
+  maxPrice: 599,
+  date: '2025-07-20',
+  domain: ['技术'],
+  type: '大会',
+  address: '深圳南山科技园 会议中心',
+  introduce: 'Vue Conf 技术大会，邀请 Vue.js 核心团队成员分享最新技术动态和最佳实践。大会涵盖 Vue 3 组合式 API、Vite 工具链、SSR 方案、状态管理等前沿话题，是前端开发者不可错过的年度盛会。',
+  interestedCount: 800,
+  interestedPeople: [
+    { id: '1', name: '开发者A', avatar: '/static/avatar.jpeg' },
+    { id: '2', name: '开发者B', avatar: '/static/avatar.jpeg' },
+    { id: '3', name: '开发者C', avatar: '/static/avatar.jpeg' },
+    { id: '4', name: '开发者D', avatar: '/static/avatar.jpeg' },
+  ],
+  comments: [
+    { id: 'c1', user: '前端小哥', avatar: '/static/avatar.jpeg', rating: 5, content: '干货满满！尤其是 Vue 3 性能优化部分，学到了很多实用技巧。' },
+    { id: 'c2', user: 'JS爱好者', avatar: '/static/avatar.jpeg', rating: 4.5, content: '讲师阵容强大，内容紧凑丰富，唯一遗憾是时间太短了。' },
+  ],
+};
+
 // 初始化 Mock 数据
 export function initMock() {
   // 首页轮播图
   mockStore['/homeSwiper'] = {
     code: 200,
     data: [
-      { image: '/static/activity/banner1.png' },
-      { image: '/static/activity/banner2.png' },
+      {
+        id: '1',
+        name: '2019 SICC服务设计创新大会',
+        url: '/static/mock-imgs/activity/sicc2019.png',
+      },
+      {
+        id: '2',
+        name: '2021 SICC服务设计创新大会',
+        url: '/static/mock-imgs/activity/sicc2021.png',
+      },
+      {
+        id: '3',
+        name: '第一届SICC服务创新大会',
+        url: '/static/mock-imgs/activity/sicc2019.png',
+      },
+      {
+        id: '4',
+        name: '第三届SICC服务创新大会',
+        url: '/static/mock-imgs/activity/sicc2021.png',
+      },
+      {
+        id: '5',
+        name: '2019年SICC服务设计创新大会',
+        url: '/static/mock-imgs/activity/sicc2019.png',
+      },
+      {
+        id: '6',
+        name: '2021年SICC服务设计创新大会',
+        url: '/static/mock-imgs/activity/sicc2021.png',
+      },
     ],
   };
 
@@ -73,42 +159,32 @@ export function initMock() {
   mockStore['/activities/1'] = {
     code: 200,
     data: {
+      ...ACTIVITY_DETAIL_1,
       id: '1',
-      title: '2024深圳设计周',
-      cover: '/static/activity/cover1.png',
-      banner: '/static/activity/banner1.png',
-      guestImages: ['/static/activity/cover2.png', '/static/activity/cover3.png'],
-      sceneImages: ['/static/activity/cover1.png', '/static/activity/cover2.png'],
-      score: 4.5,
-      minPrice: 0,
-      maxPrice: 0,
-      date: '2025-06-15',
-      domain: ['设计'],
-      type: '展览',
-      address: '深圳会展中心 1号馆',
-      introduce: '深圳设计周是深圳市年度大型设计活动，汇集国内外知名设计师和设计机构。',
-      interestedCount: 1200,
     },
   };
 
   mockStore['/activities/2'] = {
     code: 200,
     data: {
+      ...ACTIVITY_DETAIL_2,
       id: '2',
-      title: 'Vue Conf 2024 技术大会',
-      cover: '/static/activity/cover2.png',
-      banner: '/static/activity/banner2.png',
-      guestImages: ['/static/activity/cover1.png'],
-      sceneImages: ['/static/activity/cover3.png'],
-      score: 4.8,
-      minPrice: 199,
-      maxPrice: 599,
-      date: '2025-07-20',
-      domain: ['技术'],
-      type: '大会',
-      address: '深圳南山科技园 会议中心',
-      introduce: 'Vue Conf 技术大会，邀请 Vue.js 核心团队成员分享最新技术动态和最佳实践。',
-      interestedCount: 800,
+    },
+  };
+
+  mockStore['/activities/3'] = {
+    code: 200,
+    data: {
+      ...ACTIVITY_DETAIL_1,
+      id: '3',
+    },
+  };
+
+  mockStore['/activities/4'] = {
+    code: 200,
+    data: {
+      ...ACTIVITY_DETAIL_2,
+      id: '4',
     },
   };
 
@@ -150,40 +226,47 @@ export function initMock() {
   // 个人活动列表
   mockStore['/personActivities'] = {
     code: 200,
-    data: {
-      data: [
-        {
-          id: '1',
-          personId: '1',
-          title: '2024深圳设计周',
-          status: '待参加',
-          date: '2025-06-15',
-          cover: '/static/activity/cover1.png',
-        },
-        {
-          id: '2',
-          personId: '1',
-          title: 'Vue Conf 2024 技术大会',
-          status: '待参加',
-          date: '2025-07-20',
-          cover: '/static/activity/cover2.png',
-        },
-        {
-          id: '3',
-          personId: '1',
-          title: '春季户外音乐节',
-          status: '已完成',
-          date: '2024-04-10',
-          cover: '/static/activity/cover3.png',
-        },
-      ],
-      pagination: {
-        page: 1,
-        pageSize: 20,
-        total: 3,
-        totalPages: 1,
+    data: [
+      {
+        id: '1',
+        personId: '1',
+        title: '2024深圳设计周',
+        status: '待参加',
+        date: '2025-06-15',
+        cover: '/static/activity/cover1.png',
       },
+      {
+        id: '2',
+        personId: '1',
+        title: 'Vue Conf 2024 技术大会',
+        status: '待参加',
+        date: '2025-07-20',
+        cover: '/static/activity/cover2.png',
+      },
+      {
+        id: '3',
+        personId: '1',
+        title: '春季户外音乐节',
+        status: '已完成',
+        date: '2024-04-10',
+        cover: '/static/activity/cover3.png',
+      },
+      {
+        id: '4',
+        personId: '1',
+        title: '秋季户外音乐节',
+        status: '已完成',
+        date: '2024-04-10',
+        cover: '/static/activity/cover3.png',
+      },
+    ],
+    pagination: {
+      page: 1,
+      pageSize: 20,
+      total: 3,
+      totalPages: 1,
     },
+    // },
   };
 
   // 用户资料
@@ -194,7 +277,7 @@ export function initMock() {
       name: 'TDesign',
       age: 29,
       occupation: '设计师',
-      avatar: '/static/avatar.png',
+      avatar: '/static/avatar.jpeg',
       city: '深圳',
     },
   };
@@ -203,9 +286,9 @@ export function initMock() {
   mockStore['/share/friends'] = {
     code: 200,
     data: [
-      { id: '1', name: '小明', avatar: '/static/avatar.png', isDefault: false },
-      { id: '2', name: '小红', avatar: '/static/avatar.png', isDefault: false },
-      { id: '3', name: '小王', avatar: '/static/avatar.png', isDefault: false },
+      { id: '1', name: '小明', avatar: '/static/avatar.jpeg', isDefault: false },
+      { id: '2', name: '小红', avatar: '/static/avatar.jpeg', isDefault: false },
+      { id: '3', name: '小王', avatar: '/static/avatar.jpeg', isDefault: false },
     ],
   };
 

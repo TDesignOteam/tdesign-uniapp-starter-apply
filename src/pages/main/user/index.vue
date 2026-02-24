@@ -13,7 +13,7 @@
           />
           <t-avatar
             v-else
-            :image="profile?.avatar || '/static/avatar.png'"
+            :image="profile?.avatar || '/static/avatar.jpeg'"
             size="large"
           />
         </view>
@@ -25,10 +25,16 @@
             :row-col="[{ height: '48rpx', width: '96rpx' }]"
           />
           <view v-else>
-            <text class="user-card__name">{{ profile?.name }}</text>
+            <text class="user-card__name">
+              {{ profile?.name }}
+            </text>
             <view class="user-card__tag">
-              <t-tag variant="light">{{ profile?.age }}岁</t-tag>
-              <t-tag variant="light">{{ profile?.occupation }}</t-tag>
+              <t-tag variant="light">
+                {{ profile?.age }}岁
+              </t-tag>
+              <t-tag variant="light">
+                {{ profile?.occupation }}
+              </t-tag>
             </view>
           </view>
         </view>
@@ -37,23 +43,47 @@
 
     <!-- 活动列表 -->
     <view class="activity-section">
-      <t-tabs :value="tabValue" @change="onTabChange">
-        <t-tab-panel value="first" label="待参加" />
-        <t-tab-panel value="second" label="已完成" />
-        <t-tab-panel value="third" label="全部活动" />
+      <t-tabs
+        :value="tabValue"
+        @change="onTabChange"
+      >
+        <t-tab-panel
+          value="first"
+          label="待参加"
+        />
+        <t-tab-panel
+          value="second"
+          label="已完成"
+        />
+        <t-tab-panel
+          value="third"
+          label="全部活动"
+        />
       </t-tabs>
 
       <view class="activity-list">
-        <ActivityCardSkeleton v-if="isFetching && activities.length === 0" :count="2" />
-        <t-empty v-if="!isFetching && activities.length === 0" description="暂无活动" />
-        <view v-for="item in activities" :key="item.id" class="activity-item">
+        <ActivityCardSkeleton
+          v-if="isFetching && activities.length === 0"
+          :count="2"
+        />
+        <t-empty
+          v-if="!isFetching && activities.length === 0"
+          description="暂无活动"
+        />
+        <view
+          v-for="item in activities"
+          :key="item.id"
+          class="activity-item"
+        >
           <ActivityCard
             :cover="item.cover"
             :title="item.title"
             @click="goDetail(item.id)"
           >
             <template #content>
-              <text class="activity-item__time">{{ item.time }}</text>
+              <text class="activity-item__time">
+                {{ item.time }}
+              </text>
             </template>
             <template #footer>
               <view class="activity-item__footer">
@@ -66,7 +96,9 @@
                 <t-button
                   v-if="item.status === '已完成'"
                   size="extra-small"
-                  variant="outline"
+                  theme="primary"
+                  variant="text"
+                  custom-style="margin-right: unset;"
                   @click.stop="onReview(item.id)"
                 >
                   去评价
@@ -84,16 +116,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-import type { UserProfile } from '@/api/user-info';
-import type { ActivityStatus } from '@/api/activity';
 import { getPersonActivities } from '@/api/activity';
 import { getUserProfile } from '@/api/user-info';
-import { formatDate } from '@/utils/date';
 
-import ActivityCard from '@/components/activity-card.vue';
 import ActivityCardSkeleton from '@/components/activity-card-skeleton.vue';
+import ActivityCard from '@/components/activity-card.vue';
 import CustomTabBar from '@/components/custom-tab-bar.vue';
 import NavBar from '@/components/nav-bar.vue';
+import { formatDate } from '@/utils/date';
+
+import type { ActivityStatus } from '@/api/activity';
+import type { UserProfile } from '@/api/user-info';
 
 
 type TabValue = 'first' | 'second' | 'third';
@@ -151,7 +184,7 @@ async function fetchProfile() {
   isProfileLoading.value = true;
   try {
     const response = await getUserProfile();
-    profile.value = response;
+    profile.value = response.data;
   } catch (error) {
     console.error('获取用户资料失败:', error);
   } finally {
@@ -160,7 +193,7 @@ async function fetchProfile() {
 }
 
 /** Tab 切换 */
-function onTabChange(value: string | number) {
+function onTabChange({ value }: { value: number | string }) {
   tabValue.value = String(value) as TabValue;
   fetchActivities();
 }

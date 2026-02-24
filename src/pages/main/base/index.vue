@@ -14,10 +14,12 @@
 
       <!-- 热门推荐 -->
       <view class="section">
-        <text class="section__title">热门推荐</text>
-        <t-swiper
-          v-if="swiperList.length > 0"
+        <text class="section__title">
+          热门推荐
+        </text>
+        <ActivitySwiper
           :list="swiperList"
+          :loading="isFetchingSwiper"
           :navigation="{ type: 'dots-bar' }"
           height="300rpx"
         />
@@ -25,32 +27,63 @@
 
       <!-- 全部活动 -->
       <view class="section">
-        <text class="section__title">全部活动</text>
+        <text class="section__title">
+          全部活动
+        </text>
         <view class="tab-wrap">
-          <t-tabs
-            v-model:value="currentTab"
-            :split="false"
-            :show-bottom-line="false"
-            @change="onTabChange"
+          <view class="tab-wrap__tabs">
+            <t-tabs
+              v-model:value="currentTab"
+              :split="false"
+              :show-bottom-line="false"
+              @change="onTabChange"
+            >
+              <t-tab-panel
+                value="latest"
+                label="最新活动"
+              />
+              <t-tab-panel
+                value="top"
+                label="高分活动"
+              />
+            </t-tabs>
+          </view>
+          <view
+            class="tab-wrap__filter"
+            @click="filterPopupVisible = true"
           >
-            <t-tab-panel value="latest" label="最新活动" />
-            <t-tab-panel value="top" label="高分活动" />
-          </t-tabs>
+            <t-icon
+              name="filter"
+              size="32rpx"
+            />
+            <text class="tab-wrap__filter-text">
+              筛选
+            </text>
+          </view>
         </view>
       </view>
 
       <t-divider custom-style="margin: 0" />
 
       <!-- 活动列表 -->
-      <view v-if="!isFetching && activityList.length === 0" class="empty-wrap">
+      <view
+        v-if="!isFetching && activityList.length === 0"
+        class="empty-wrap"
+      >
         <t-empty description="暂无相关活动" />
+        <text class="empty-wrap__hint">
+          换个筛选条件试试，或许有惊喜哦～
+        </text>
       </view>
 
       <view v-else-if="isFetching && activityList.length === 0">
         <ActivityCardSkeleton />
       </view>
 
-      <view v-else class="activity-list">
+      <view
+        v-else
+        class="activity-list"
+      >
         <ActivityCard
           v-for="item in activityList"
           :key="item.id"
@@ -67,29 +100,48 @@
                 allow-half
                 disabled
               />
-              <text class="rate-text">{{ item.score }}分</text>
+              <text class="rate-text">
+                {{ item.score }}分
+              </text>
             </view>
           </template>
           <template #footer>
-            <text class="price">{{ item.formattedPrice }}</text>
+            <text class="price">
+              {{ item.formattedPrice }}
+            </text>
           </template>
         </ActivityCard>
       </view>
     </view>
   </view>
   <CustomTabBar />
+
+  <!-- 筛选弹窗 -->
+  <ActivityFilterPopup
+    v-model:visible="filterPopupVisible"
+    :filters="filters"
+    @reset="resetAndFetch"
+    @update:filters="handleFiltersUpdate"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 
 import request from '@/api/request';
-import { formatPrice } from '@/utils/formatters';
 
-import ActivityCard from '@/components/activity-card.vue';
 import ActivityCardSkeleton from '@/components/activity-card-skeleton.vue';
+import ActivityCard from '@/components/activity-card.vue';
+import ActivityFilterPopup from '@/components/activity-filter-popup.vue';
+import ActivitySwiper from '@/components/activity-swiper.vue';
 import CustomTabBar from '@/components/custom-tab-bar.vue';
 import NavBar from '@/components/nav-bar.vue';
+import { defaultFilterOptions } from '@/constant/filters';
+import { formatPrice } from '@/utils/formatters';
+
+import type { ActivityFilterParams } from '@/api/activity';
+
+import type { SwiperItem } from '@/components/activity-swiper.vue';
 
 
 interface ActivityItem {
@@ -102,9 +154,20 @@ interface ActivityItem {
 
 const searchValue = ref('');
 const currentTab = ref('latest');
-const swiperList = ref<string[]>([]);
+const swiperList = ref<SwiperItem[]>([]);
 const activityList = ref<ActivityItem[]>([]);
+const isFetchingSwiper = ref(true);
 const isFetching = ref(true);
+const filterPopupVisible = ref(false);
+
+// 筛选器状态
+const filters = reactive<ActivityFilterParams>({
+  domain: [],
+  type: [],
+  minPrice: defaultFilterOptions.minPrice,
+  maxPrice: defaultFilterOptions.maxPrice,
+  dateRange: Array.from(defaultFilterOptions.dateRange).map((d: Date) => new Date(d)),
+});
 
 /** 获取首页数据 */
 const fetchData = async () => {
@@ -112,11 +175,26 @@ const fetchData = async () => {
   try {
     const [swiperRes, activityRes] = await Promise.all([
       request('/homeSwiper'),
-      request('/activities', 'POST', { params: { sort: currentTab.value, page: 1, pageSize: 10 } }),
+      request('/activities', 'POST', {
+        params: {
+          sort: currentTab.value,
+          page: 1,
+          pageSize: 10,
+          domain: Array.from(filters.domain),
+          type: Array.from(filters.type),
+          minPrice: filters.minPrice,
+          maxPrice: filters.maxPrice,
+          dateRange: Array.from(filters.dateRange),
+        },
+      }),
     ]);
 
-    swiperList.value = swiperRes.data.map((item: { image: string }) => item.image);
-    activityList.value = activityRes.data.paginatedData.map((item: any) => ({
+    const swiperData = swiperRes?.data || [];
+    swiperList.value = Array.isArray(swiperData) ? swiperData : [];
+    isFetchingSwiper.value = false;
+
+    const paginatedData = activityRes?.data?.paginatedData || [];
+    activityList.value = (Array.isArray(paginatedData) ? paginatedData : []).map((item: any) => ({
       ...item,
       formattedPrice: formatPrice(item.minPrice, item.maxPrice),
     }));
@@ -129,6 +207,22 @@ const fetchData = async () => {
 
 /** Tab 切换 */
 const onTabChange = () => {
+  fetchData();
+};
+
+/** 处理筛选器更新 */
+const handleFiltersUpdate = (newFilters: ActivityFilterParams) => {
+  Object.assign(filters, newFilters);
+  fetchData();
+};
+
+/** 重置筛选器并重新获取 */
+const resetAndFetch = () => {
+  filters.domain = [];
+  filters.type = [];
+  filters.minPrice = defaultFilterOptions.minPrice;
+  filters.maxPrice = defaultFilterOptions.maxPrice;
+  filters.dateRange = Array.from(defaultFilterOptions.dateRange).map((d: Date) => new Date(d));
   fetchData();
 };
 
@@ -145,7 +239,7 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-@import "@/styles/variable.less";
+@import '@/styles/variable.less';
 
 .home-container {
   height: calc(100vh - @tab-bar-height);
@@ -153,7 +247,7 @@ onMounted(() => {
   .home-content {
     height: calc(100% - @nav-bar-height);
     overflow: auto;
-    background-color: @bg-color;
+    // background-color: @bg-color;
   }
 }
 
@@ -175,14 +269,57 @@ onMounted(() => {
 }
 
 .tab-wrap {
-  :deep(.t-tabs) {
-    --td-tab-item-tag-height: 72rpx;
-    --td-tab-font-size: @font-size-small;
+  display: flex;
+  align-items: center;
+  height: 96rpx;
+
+  &__tabs {
+    flex: 2;
+
+    :deep(.t-tabs) {
+      --td-tab-item-tag-height: 72rpx;
+      --td-tab-font-size: @font-size-small;
+    }
+  }
+
+  &__filter {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 96rpx;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2rpx;
+      height: 44rpx;
+      background-color: @gray3;
+    }
+  }
+
+  &__filter-text {
+    margin-left: 4rpx;
+    font-size: @font-size-small;
+    color: @gy1;
   }
 }
 
 .empty-wrap {
   padding: 120rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__hint {
+    margin-top: 16rpx;
+    font-size: @font-size-small;
+    color: @gy3;
+  }
 }
 
 .activity-list {

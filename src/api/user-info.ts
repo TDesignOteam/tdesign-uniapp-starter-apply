@@ -11,6 +11,6 @@ export interface UserProfile {
 }
 
 /** 获取用户资料 */
-export function getUserProfile(): Promise<UserProfile> {
+export function getUserProfile(): Promise<{data: UserProfile}> {
   return request('/user/profile');
 }

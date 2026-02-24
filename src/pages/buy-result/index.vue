@@ -1,9 +1,15 @@
 <template>
-  <NavBar title="购买结果" :show-back="true" />
+  <NavBar
+title="购买结果"
+          :show-back="true"
+/>
   <view class="result-page">
     <!-- 成功状态 -->
     <view class="result-status">
-      <t-result theme="success" title="购买成功" />
+      <t-result
+theme="success"
+                title="购买成功"
+/>
     </view>
 
     <!-- 活动信息卡片 -->
@@ -13,26 +19,40 @@
         mode="aspectFill"
         custom-style="width: 100%; height: 240rpx; border-radius: 16rpx;"
       />
-      <text class="activity-card__name">{{ activity.name }}</text>
+      <text class="activity-card__name">
+        {{ activity.name }}
+      </text>
       <view class="activity-card__details">
         <view class="activity-card__item">
-          <t-icon name="time" size="32rpx" />
+          <t-icon
+name="time"
+                  size="32rpx"
+/>
           <text>{{ activity.date }}</text>
         </view>
         <view class="activity-card__item">
-          <t-icon name="location" size="32rpx" />
+          <t-icon
+name="location"
+                  size="32rpx"
+/>
           <text>{{ activity.address }}</text>
         </view>
       </view>
     </view>
 
     <!-- 报名人员 -->
-    <text class="section-title">报名人员</text>
+    <text class="section-title">
+      报名人员
+    </text>
     <view class="person-info">
-      <t-avatar image="/static/avatar.png" />
+      <t-avatar image="/static/avatar.jpeg" />
       <view class="person-info__details">
-        <text class="person-info__name">{{ selectedPerson.name }}</text>
-        <text class="person-info__desc">{{ selectedPerson.age }} {{ selectedPerson.occupation }}</text>
+        <text class="person-info__name">
+          {{ selectedPerson.name }}
+        </text>
+        <text class="person-info__desc">
+          {{ selectedPerson.age }} {{ selectedPerson.occupation }}
+        </text>
       </view>
     </view>
 
@@ -66,9 +86,8 @@ import { ref, reactive } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 
 import { getActivityDetail } from '@/api/activity';
-import { formatDate } from '@/utils/date';
-
 import NavBar from '@/components/nav-bar.vue';
+import { formatDate } from '@/utils/date';
 
 
 const activityId = ref('');
@@ -89,7 +108,7 @@ const selectedPerson = reactive({
 /** 获取活动信息 */
 async function fetchActivityData() {
   try {
-    const data = await getActivityDetail(activityId.value);
+    const { data } = await getActivityDetail(activityId.value);
     activity.name = data.title;
     activity.date = formatDate(data.date);
     activity.address = data.address;
