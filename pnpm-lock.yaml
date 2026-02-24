@@ -59,15 +59,24 @@ importers:
       '@tdesign/uniapp':
         specifier: https://pkg.pr.new/Tencent/tdesign-miniprogram/@tdesign/uniapp@4280
         version: https://pkg.pr.new/Tencent/tdesign-miniprogram/@tdesign/uniapp@4280
+      '@tdesign/uniapp-chat':
+        specifier: ^0.2.0
+        version: 0.2.0
       dayjs:
         specifier: ^1.11.13
         version: 1.11.19
       t-comm:
         specifier: ^3.0.25
         version: 3.1.0
+      tdesign-uniapp:
+        specifier: ^0.5.3
+        version: 0.5.9
       vue:
         specifier: ^3.4.21
         version: 3.5.28(typescript@5.5.4)
+      vue-i18n:
+        specifier: ^9.1.9
+        version: 9.14.5(vue@3.5.28(typescript@5.5.4))
     devDependencies:
       '@dcloudio/types':
         specifier: ^3.4.8
@@ -87,12 +96,27 @@ importers:
       '@novlan/postcss-plugin-remove-selector':
         specifier: ^0.1.5
         version: 0.1.6(postcss@8.4.49)
+      '@plugin-light/cli':
+        specifier: ^1.0.1
+        version: 1.0.12
+      '@plugin-light/vite-plugin-legacy-polyfill':
+        specifier: ^0.0.2
+        version: 0.0.2
       '@plugin-light/vite-plugin-rem-to-rpx':
+        specifier: ^0.0.6
+        version: 0.0.6
+      '@plugin-light/vite-plugin-remove-use-rem':
+        specifier: ^0.0.8
+        version: 0.0.8
+      '@plugin-light/vite-plugin-transform-v-lazy':
         specifier: ^0.0.6
         version: 0.0.6
       '@stylistic/eslint-plugin-jsx':
         specifier: 3.1.0
         version: 3.1.0(eslint@8.57.1)
+      '@types/js-cookie':
+        specifier: ^3.0.6
+        version: 3.0.6
       '@types/node':
         specifier: ^22.5.4
         version: 22.19.11
@@ -1154,6 +1178,10 @@ packages:
     resolution: {integrity: sha512-x5T0p/Ja0S8hs5xs+ImKyYckVkL4CzcEXykVYYV6rcbXxJTe2o58IquSqX9bdncVKbRZP7GlBU1EcRaQEEJ+vw==}
     engines: {node: '>= 10'}
 
+  '@intlify/core-base@9.14.5':
+    resolution: {integrity: sha512-5ah5FqZG4pOoHjkvs8mjtv+gPKYU0zCISaYNjBNNqYiaITxW8ZtVih3GS/oTOqN8d9/mDLyrjD46GBApNxmlsA==}
+    engines: {node: '>= 16'}
+
   '@intlify/devtools-if@9.1.9':
     resolution: {integrity: sha512-oKSMKjttG3Ut/1UGEZjSdghuP3fwA15zpDPcjkf/1FjlOIm6uIBGMNS5jXzsZy593u+P/YcnrZD6cD3IVFz9vQ==}
     engines: {node: '>= 10'}
@@ -1161,6 +1189,10 @@ packages:
   '@intlify/message-compiler@9.1.9':
     resolution: {integrity: sha512-6YgCMF46Xd0IH2hMRLCssZI3gFG4aywidoWQ3QP4RGYQXQYYfFC54DxhSgfIPpVoPLQ+4AD29eoYmhiHZ+qLFQ==}
     engines: {node: '>= 10'}
+
+  '@intlify/message-compiler@9.14.5':
+    resolution: {integrity: sha512-IHzgEu61/YIpQV5Pc3aRWScDcnFKWvQA9kigcINcCBXN8mbW+vk9SK+lDxA6STzKQsVJxUPg9ACC52pKKo3SVQ==}
+    engines: {node: '>= 16'}
 
   '@intlify/message-resolver@9.1.9':
     resolution: {integrity: sha512-Lx/DBpigeK0sz2BBbzv5mu9/dAlt98HxwbG7xLawC3O2xMF9MNWU5FtOziwYG6TDIjNq0O/3ZbOJAxwITIWXEA==}
@@ -1173,6 +1205,10 @@ packages:
   '@intlify/shared@9.1.9':
     resolution: {integrity: sha512-xKGM1d0EAxdDFCWedcYXOm6V5Pfw/TMudd6/qCdEb4tv0hk9EKeg7lwQF1azE0dP2phvx0yXxrt7UQK+IZjNdw==}
     engines: {node: '>= 10'}
+
+  '@intlify/shared@9.14.5':
+    resolution: {integrity: sha512-9gB+E53BYuAEMhbCAxVgG38EZrk59sxBtv3jSizNL2hEWlgjBjAw1AwpLHtNaeda12pe6W20OGEa0TwuMSRbyQ==}
+    engines: {node: '>= 16'}
 
   '@intlify/vue-devtools@9.1.9':
     resolution: {integrity: sha512-YPehH9uL4vZcGXky4Ev5qQIITnHKIvsD2GKGXgqf+05osMUI6WSEQHaN9USRa318Rs8RyyPCiDfmA0hRu3k7og==}
@@ -1444,11 +1480,34 @@ packages:
     peerDependencies:
       postcss: ^7.0.0 || ^8.0.0
 
+  '@plugin-light/cli@1.0.12':
+    resolution: {integrity: sha512-8QGji4KTwNV9uvitBYm7zlpm9b4yd2OywfLXJr9V/ZN9xfrzn7OcIawRbrZK0CldfLTgnytIZ+1gxFjZd1fnCQ==}
+    hasBin: true
+
+  '@plugin-light/const@0.1.1':
+    resolution: {integrity: sha512-hdgwJlBnc3Q2SFGFs5MgE3sfALLHlr2uqC4G0Pkja7o66yyxegL+4xXXSE4d31LMw+OkOvAolENH3A4qJphoFw==}
+    engines: {node: 12.x || 14.x || >= 16}
+
   '@plugin-light/shared@0.0.11':
     resolution: {integrity: sha512-6MLWFJypBAQEORej387EQdmG4b6kqHPlOpUguH8bS3gu0E2KzQtIQ7cJXjtvu58mPXtZHnSwlCdqSeU4/7eHQg==}
 
+  '@plugin-light/shared@0.0.18':
+    resolution: {integrity: sha512-aOXR+JH1KqZawgrLJGv+KgaM0GQSnTYiLBVDKLp7EcCpksbBaeSQAYkl4iQ9lZlOQwslh+YVSJ24/zbBcCfo5w==}
+
+  '@plugin-light/shared@1.0.9':
+    resolution: {integrity: sha512-/LSP1twVbSAR602gZ4IysASmQqXI/e25OFmwvcr+P56Nms+PBiw3vcPm8tKgKR1M6rgr3AwPQZZpvONUiQDjQQ==}
+
+  '@plugin-light/vite-plugin-legacy-polyfill@0.0.2':
+    resolution: {integrity: sha512-XPUqWlZR4EI79tp9JpoOmnclz5uEss1PDp2J6iY5BIAoRiIkADSPQwCJEnm0cCTUGzbFubQGMeOzVZDbIkpiFw==}
+
   '@plugin-light/vite-plugin-rem-to-rpx@0.0.6':
     resolution: {integrity: sha512-/0iAY9K8qEQIoPZXmaZg8oRA0kVwAog8vJ5AdvjOnIP0iKMHcU6RXev076eTPrVlRo2EaSdB97h7PgQ393RShg==}
+
+  '@plugin-light/vite-plugin-remove-use-rem@0.0.8':
+    resolution: {integrity: sha512-E5UXYUir8RnKpE2oFmqpYY51JTollkevl1QJcbkdPlL9gi8KnupeH0PvEoYsspQlgSQAcSTsx1GvJU3VIqk23Q==}
+
+  '@plugin-light/vite-plugin-transform-v-lazy@0.0.6':
+    resolution: {integrity: sha512-tD+bSIYU3KJ6Nsifz/+50QMGrogaYf9lO4d4fwsRHWKaLUMIoMNkVCFsIZLrFktPVM6v54CBJHfhcmzvh8hoOQ==}
 
   '@plugin-light/webpack-plugin-rem-to-rpx@0.0.4':
     resolution: {integrity: sha512-L5QrDa9O8JYnYLocquuJvqOa55j/udgNYxFU79gWPtdnweTssjkokPIJZAmW20OPCCmpYSA5LtEIF71anRHOEA==}
@@ -1613,6 +1672,9 @@ packages:
     peerDependencies:
       eslint: '>=8.40.0'
 
+  '@tdesign/uniapp-chat@0.2.0':
+    resolution: {integrity: sha512-s0rBvQlk6qWU7U4Z+DMA42IvuGaSXEr8NQZ4M0lzMwpxsamh/6vTUhJkSM52hl1rMCKbPXw+zp93tZ7G2C4DQg==}
+
   '@tdesign/uniapp@https://pkg.pr.new/Tencent/tdesign-miniprogram/@tdesign/uniapp@4280':
     resolution: {tarball: https://pkg.pr.new/Tencent/tdesign-miniprogram/@tdesign/uniapp@4280}
     version: 0.7.1
@@ -1647,6 +1709,9 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
+
+  '@types/js-cookie@3.0.6':
+    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -4150,6 +4215,10 @@ packages:
     resolution: {integrity: sha512-I5d00Pd/jwMD2QCduo657+YM/6L3KZu++pmX9VFncxaxvHcru9jx1lBaFft+r4Mt2jK0Yhp41XlRAihzPxHNCg==}
     engines: {node: '>=4.0.0'}
 
+  loader-utils@2.0.4:
+    resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==}
+    engines: {node: '>=8.9.0'}
+
   loader-utils@3.3.1:
     resolution: {integrity: sha512-FMJTLMXfCLMLfJxcX9PFqX5qD88Z5MRGaZCVzfuqeZSPsyiBzs+pahDQjbIWz2QIzPZz0NX9Zy4FX3lmK6YHIg==}
     engines: {node: '>= 12.13.0'}
@@ -5121,6 +5190,11 @@ packages:
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
+  rollup@2.80.0:
+    resolution: {integrity: sha512-cIFJOD1DESzpjOBl763Kp1AH7UE/0fcdHe6rZXUdQ9c50uvgigvW97u3IcSeBwOkgqL/PXPBktBCh0KEu5L8XQ==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+
   rollup@4.58.0:
     resolution: {integrity: sha512-wbT0mBmWbIvvq8NeEYWWvevvxnOyhKChir47S66WCxw1SXqhw7ssIYejnQEVt7XYQpsj2y8F9PM+Cr3SNEa0gw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -5473,6 +5547,9 @@ packages:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
 
+  tdesign-uniapp@0.5.9:
+    resolution: {integrity: sha512-tKC+V9ckW4dwNvfE132u7j3Kw31JVi3uYN4hgdDjh0gSAIxNF3xkt+vET5vm74ClTZjApPpTJslVUEaRg/q/bA==}
+
   terminal-link@2.1.1:
     resolution: {integrity: sha512-un0FmiRUQNr5PJqy9kP7c40F5BOfpGlYTrxonDChEZB7pzZxRNp/bt+ymiy9/npwXya9KH99nJ/GXFIiUkYGFQ==}
     engines: {node: '>=8'}
@@ -5797,6 +5874,12 @@ packages:
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=6.0.0'
+
+  vue-i18n@9.14.5:
+    resolution: {integrity: sha512-0jQ9Em3ymWngyiIkj0+c/k7WgaPO+TNzjKSNq9BvBQaKJECqn9cd9fL4tkDhB5G1QBskGl9YxxbDAhgbFtpe2g==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      vue: ^3.0.0
 
   vue-router@4.4.4:
     resolution: {integrity: sha512-3MlnDqwRwZwCQVbtVfpsU+nrNymNjnXSsQtXName5925NVC1+326VVfYH9vSrA0N13teGEo8z5x7gbRnGjCDiQ==}
@@ -7634,6 +7717,11 @@ snapshots:
       '@intlify/shared': 9.1.9
       '@intlify/vue-devtools': 9.1.9
 
+  '@intlify/core-base@9.14.5':
+    dependencies:
+      '@intlify/message-compiler': 9.14.5
+      '@intlify/shared': 9.14.5
+
   '@intlify/devtools-if@9.1.9':
     dependencies:
       '@intlify/shared': 9.1.9
@@ -7644,6 +7732,11 @@ snapshots:
       '@intlify/shared': 9.1.9
       source-map: 0.6.1
 
+  '@intlify/message-compiler@9.14.5':
+    dependencies:
+      '@intlify/shared': 9.14.5
+      source-map-js: 1.2.1
+
   '@intlify/message-resolver@9.1.9': {}
 
   '@intlify/runtime@9.1.9':
@@ -7653,6 +7746,8 @@ snapshots:
       '@intlify/shared': 9.1.9
 
   '@intlify/shared@9.1.9': {}
+
+  '@intlify/shared@9.14.5': {}
 
   '@intlify/vue-devtools@9.1.9':
     dependencies:
@@ -8141,9 +8236,36 @@ snapshots:
     dependencies:
       postcss: 8.4.49
 
+  '@plugin-light/cli@1.0.12':
+    dependencies:
+      '@plugin-light/shared': 1.0.9
+      axios: 1.13.5
+      t-comm: 3.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@plugin-light/const@0.1.1': {}
+
   '@plugin-light/shared@0.0.11':
     dependencies:
       t-comm: 1.6.23
+    transitivePeerDependencies:
+      - debug
+
+  '@plugin-light/shared@0.0.18':
+    dependencies:
+      t-comm: 1.6.23
+    transitivePeerDependencies:
+      - debug
+
+  '@plugin-light/shared@1.0.9':
+    dependencies:
+      '@plugin-light/const': 0.1.1
+      loader-utils: 2.0.4
+
+  '@plugin-light/vite-plugin-legacy-polyfill@0.0.2':
+    dependencies:
+      '@plugin-light/shared': 0.0.18
     transitivePeerDependencies:
       - debug
 
@@ -8152,6 +8274,19 @@ snapshots:
       '@plugin-light/shared': 0.0.11
       '@plugin-light/webpack-plugin-rem-to-rpx': 0.0.4
       t-comm: 1.6.23
+    transitivePeerDependencies:
+      - debug
+
+  '@plugin-light/vite-plugin-remove-use-rem@0.0.8':
+    dependencies:
+      '@plugin-light/shared': 0.0.11
+      rollup: 2.80.0
+    transitivePeerDependencies:
+      - debug
+
+  '@plugin-light/vite-plugin-transform-v-lazy@0.0.6':
+    dependencies:
+      '@plugin-light/shared': 0.0.11
     transitivePeerDependencies:
       - debug
 
@@ -8278,6 +8413,8 @@ snapshots:
       estraverse: 5.3.0
       picomatch: 4.0.3
 
+  '@tdesign/uniapp-chat@0.2.0': {}
+
   '@tdesign/uniapp@https://pkg.pr.new/Tencent/tdesign-miniprogram/@tdesign/uniapp@4280': {}
 
   '@tootallnate/once@1.1.2': {}
@@ -8318,6 +8455,8 @@ snapshots:
   '@types/istanbul-reports@3.0.4':
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
+
+  '@types/js-cookie@3.0.6': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -11497,6 +11636,12 @@ snapshots:
       emojis-list: 3.0.0
       json5: 1.0.2
 
+  loader-utils@2.0.4:
+    dependencies:
+      big.js: 5.2.2
+      emojis-list: 3.0.0
+      json5: 2.2.3
+
   loader-utils@3.3.1: {}
 
   local-pkg@1.1.2:
@@ -12470,6 +12615,10 @@ snapshots:
     dependencies:
       glob: 7.2.3
 
+  rollup@2.80.0:
+    optionalDependencies:
+      fsevents: 2.3.3
+
   rollup@4.58.0:
     dependencies:
       '@types/estree': 1.0.8
@@ -13070,6 +13219,8 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
+  tdesign-uniapp@0.5.9: {}
+
   terminal-link@2.1.1:
     dependencies:
       ansi-escapes: 4.3.2
@@ -13401,6 +13552,13 @@ snapshots:
       semver: 7.7.4
     transitivePeerDependencies:
       - supports-color
+
+  vue-i18n@9.14.5(vue@3.5.28(typescript@5.5.4)):
+    dependencies:
+      '@intlify/core-base': 9.14.5
+      '@intlify/shared': 9.14.5
+      '@vue/devtools-api': 6.6.4
+      vue: 3.5.28(typescript@5.5.4)
 
   vue-router@4.4.4(vue@3.5.28(typescript@5.5.4)):
     dependencies:
