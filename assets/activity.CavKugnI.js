@@ -1,0 +1,1 @@
+import{r as t}from"./request.DXNfmNs-.js";function i(i){return t("/personActivities","GET",i)}function r(i){return t(`/activities/${i}`)}function e(i){return t(`/activities/${i}/tickets`)}function s(i){return t(`/activities/${i}/prices`)}export{r as a,e as b,s as c,i as g};
