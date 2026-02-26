@@ -1,5 +1,6 @@
-import type { ManipulateType } from 'dayjs';
 import dayjs from 'dayjs';
+
+import type { ManipulateType } from 'dayjs';
 
 
 /**
@@ -16,8 +17,10 @@ export function generateDateRange(
   pastUnit: ManipulateType = 'week',
   futureUnit: ManipulateType = 'month',
 ): [Date, Date] {
-  const startDate = dayjs().subtract(pastCount, pastUnit).toDate();
-  const endDate = dayjs().add(futureCount, futureUnit).toDate();
+  const startDate = dayjs().subtract(pastCount, pastUnit)
+    .toDate();
+  const endDate = dayjs().add(futureCount, futureUnit)
+    .toDate();
   return [startDate, endDate];
 }
 

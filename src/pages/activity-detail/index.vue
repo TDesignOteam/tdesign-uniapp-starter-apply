@@ -212,6 +212,11 @@ onLoad((options) => {
 <style lang="less" scoped>
 @import "@/styles/variable.less";
 
+page {
+  --td-navbar-bg-color: var(--bg-color-black-colorful);
+  --td-navbar-color: var(--td-font-white-1);
+}
+
 .detail-page {
   padding-bottom: 160rpx;
   background-color: #1a1a2e;
