@@ -115,6 +115,11 @@
     "darkmode": true,
     "usingComponents": true
   },
+  "h5": {
+    "router": {
+      "base": "./"
+    }
+  },
   "uniStatistics": {
     "enable": false
   },
