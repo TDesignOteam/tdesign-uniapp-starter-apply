@@ -53,7 +53,7 @@
             v-if="selectedPersonIds.includes(person.id)"
             name="check"
             size="32rpx"
-            class="card__icon"
+            t-class="card__icon"
           />
           <text>{{ person.name }}</text>
         </view>
@@ -76,7 +76,7 @@
             v-if="selectedTicketId === ticket.id"
             name="check"
             size="32rpx"
-            class="card__icon"
+            t-class="card__icon"
           />
           <text>{{ ticket.date }}</text>
         </view>
@@ -99,7 +99,7 @@
             v-if="selectedPriceId === price.id"
             name="check"
             size="32rpx"
-            class="card__icon"
+            t-class="card__icon"
           />
           <view class="price-card">
             <text>{{ price.description }}</text>
@@ -140,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed } from 'vue';
 
 import { onLoad } from '@dcloudio/uni-app';
 
@@ -342,7 +342,7 @@ onLoad((options) => {
     color: @brand7-normal;
   }
 
-  &__icon {
+  :deep(&__icon) {
     position: absolute;
     top: 4rpx;
     right: 4rpx;

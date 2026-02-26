@@ -99,9 +99,7 @@ const props = withDefaults(
   },
 );
 
-const emit = defineEmits<{
-  /** 点击轮播项时触发，返回对应的 SwiperItem */
-  (e: 'click', item: SwiperItem): void;
+const emit = defineEmits<{(e: 'click', item: SwiperItem): void;
 }>();
 
 /**
@@ -113,10 +111,10 @@ const swiperData = computed(() => props.list.map(item => ({
   ariaLabel: item.name,
 })));
 
-const swiperCustomStyle = computed(() => {
-  const result = 'margin: 0 calc(calc(100vw - var(--swiper-width)) / 2 - 12px) 0 calc(calc(100vw - var(--swiper-width)) / 2)';
-  return result;
-});
+// const swiperCustomStyle = computed(() => {
+//   const result = 'margin: 0 calc(calc(100vw - var(--swiper-width)) / 2 - 12px) 0 calc(calc(100vw - var(--swiper-width)) / 2)';
+//   return result;
+// });
 
 /** 导航器默认配置 */
 const resolvedNavigation = computed(() => {

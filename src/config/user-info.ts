@@ -1,3 +1,5 @@
+import { safeJsonParse } from 't-comm/es/json/json-parse';
+
 import type { Person } from '@/api/share';
 
 
@@ -11,7 +13,7 @@ interface UserInfo {
 function initPersons(): Person[] {
   const storedPersons = uni.getStorageSync('userPersons');
   if (storedPersons) {
-    return JSON.parse(storedPersons) as Person[];
+    return safeJsonParse<Person[]>(storedPersons, []);
   }
   // 默认添加一个人员
   return [
@@ -27,7 +29,7 @@ function initPersons(): Person[] {
 function initSelectedPersonIds(): string[] {
   const storedSelectedIds = uni.getStorageSync('userSelectedPersonIds');
   if (storedSelectedIds) {
-    return JSON.parse(storedSelectedIds) as string[];
+    return safeJsonParse<string[]>(storedSelectedIds, []);
   }
   // 默认选中第一个人员
   return ['1'];

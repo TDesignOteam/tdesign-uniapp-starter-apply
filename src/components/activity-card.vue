@@ -1,5 +1,8 @@
 <template>
-  <view class="activity-card" @click="$emit('click')">
+  <view
+    class="activity-card"
+    @click="$emit('click')"
+  >
     <t-image
       t-class="activity-card__image"
       custom-style="width: 200rpx;height:200rpx;border-radius: 8rpx;"
@@ -7,7 +10,9 @@
       mode="aspectFill"
     />
     <view class="activity-card__info">
-      <text class="activity-card__title">{{ title }}</text>
+      <text class="activity-card__title">
+        {{ title }}
+      </text>
       <view class="activity-card__content">
         <slot name="content" />
       </view>

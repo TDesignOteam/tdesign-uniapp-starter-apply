@@ -1,18 +1,32 @@
 <template>
-  <NavBar title="选择城市" :show-back="true" />
+  <NavBar
+    title="选择城市"
+    :show-back="true"
+  />
   <view class="location-page">
     <!-- 当前定位 -->
     <view class="location-current">
       <view class="location-current__info">
-        <t-icon name="location" size="44rpx" />
-        <text class="location-current__name">{{ locationName }}</text>
+        <t-icon
+          name="location"
+          size="44rpx"
+        />
+        <text class="location-current__name">
+          {{ locationName }}
+        </text>
       </view>
     </view>
 
     <!-- 城市列表 -->
     <view class="city-list">
-      <t-indexes :index-list="indexList" :sticky="false">
-        <template v-for="item in cityList" :key="`city-index-${item.index}`">
+      <t-indexes
+        :index-list="indexList"
+        :sticky="false"
+      >
+        <template
+          v-for="item in cityList"
+          :key="`city-index-${item.index}`"
+        >
           <t-indexes-anchor :index="item.index" />
           <t-cell-group>
             <t-cell
@@ -27,8 +41,15 @@
                   {{ val.label }}
                 </text>
               </template>
-              <template v-if="locationName === val.name" #right-icon>
-                <t-icon name="check" size="48rpx" color="#0052d9" />
+              <template
+                v-if="locationName === val.name"
+                #right-icon
+              >
+                <t-icon
+                  name="check"
+                  size="48rpx"
+                  color="#0052d9"
+                />
               </template>
             </t-cell>
           </t-cell-group>
@@ -41,10 +62,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 
-import { userInfoStore, updateLocationName } from '@/config/user-info';
 import request from '@/api/request';
 
 import NavBar from '@/components/nav-bar.vue';
+import { userInfoStore, updateLocationName } from '@/config/user-info';
 
 
 interface CityItem {

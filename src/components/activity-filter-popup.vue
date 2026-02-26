@@ -79,7 +79,7 @@
             theme="light"
             variant="base"
             size="large"
-            style="flex: 1"
+            custom-style="flex: 1"
             @click="handleReset"
           >
             重置
@@ -87,7 +87,7 @@
           <t-button
             theme="primary"
             size="large"
-            style="flex: 1"
+            custom-style="flex: 1"
             @click="handleApply"
           >
             完成
@@ -255,15 +255,6 @@ function handleApply() {
   emit('update:visible', false);
 }
 
-/** 日历选择 */
-function onCalendarSelect({ value }) {
-  tmpCalendarValue.value = value;
-}
-
-/** 日历弹窗可见性变化 */
-function onCalendarVisibleChange({ visible }:{visible: boolean}) {
-  calendarVisible.value = visible;
-}
 
 /** 关闭日历 */
 function closeCalendar() {

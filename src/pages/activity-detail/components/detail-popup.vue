@@ -217,9 +217,7 @@ const props = withDefaults(defineProps<Props>(), {
   popupHeight: '80vh',
 });
 
-const emit = defineEmits<{
-  /** 切换弹层展开/收起状态 */
-  (e: 'toggle'): void;
+const emit = defineEmits<{(e: 'toggle'): void;
 }>();
 
 /** 处理弹层切换 */

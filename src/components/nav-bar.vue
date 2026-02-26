@@ -6,10 +6,21 @@
       placeholder
       @left-click="goBack"
     >
-      <template v-if="showLocation" #left>
-        <view class="nav-bar__left" @click="goSelectLocation">
-          <t-icon name="location" size="32rpx" />
-          <text class="nav-bar__location-text">{{ locationName }}</text>
+      <template
+        v-if="showLocation"
+        #left
+      >
+        <view
+          class="nav-bar__left"
+          @click="goSelectLocation"
+        >
+          <t-icon
+            name="location"
+            size="32rpx"
+          />
+          <text class="nav-bar__location-text">
+            {{ locationName }}
+          </text>
         </view>
       </template>
     </t-navbar>
@@ -19,7 +30,7 @@
 <script setup lang="ts">
 import { userInfoStore } from '@/config/user-info';
 
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     default: '',
@@ -34,7 +45,7 @@ const props = defineProps({
   },
 });
 
-const locationName = userInfoStore.locationName;
+const { locationName } = userInfoStore;
 
 const goBack = () => {
   uni.navigateBack();

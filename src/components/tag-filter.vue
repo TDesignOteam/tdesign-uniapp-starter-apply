@@ -1,6 +1,8 @@
 <template>
   <view>
-    <text class="tag-filter__title">{{ title }}</text>
+    <text class="tag-filter__title">
+      {{ title }}
+    </text>
     <view class="tag-filter__container">
       <view
         v-for="item in options"

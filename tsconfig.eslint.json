@@ -1,17 +1,13 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
-  },
+  "extends": "./tsconfig.json",
   "include": [
-    "src/**/*.ts",
+    "**/*.ts",
+    "**/*.js",
     "src/**/*.d.ts",
+    "src/types/**/*.d.ts",
+    "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    ".eslintrc.js"
   ]
 }

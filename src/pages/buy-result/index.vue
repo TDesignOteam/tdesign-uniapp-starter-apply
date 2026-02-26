@@ -1,15 +1,15 @@
 <template>
   <NavBar
-title="购买结果"
-          :show-back="true"
-/>
+    title="购买结果"
+    :show-back="true"
+  />
   <view class="result-page">
     <!-- 成功状态 -->
     <view class="result-status">
       <t-result
-theme="success"
-                title="购买成功"
-/>
+        theme="success"
+        title="购买成功"
+      />
     </view>
 
     <!-- 活动信息卡片 -->
@@ -25,16 +25,16 @@ theme="success"
       <view class="activity-card__details">
         <view class="activity-card__item">
           <t-icon
-name="time"
-                  size="32rpx"
-/>
+            name="time"
+            size="32rpx"
+          />
           <text>{{ activity.date }}</text>
         </view>
         <view class="activity-card__item">
           <t-icon
-name="location"
-                  size="32rpx"
-/>
+            name="location"
+            size="32rpx"
+          />
           <text>{{ activity.address }}</text>
         </view>
       </view>

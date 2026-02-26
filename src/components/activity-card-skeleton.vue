@@ -1,9 +1,13 @@
 <template>
-  <view class="skeleton-card" v-for="i in count" :key="i">
+  <view
+    v-for="i in count"
+    :key="i"
+    class="skeleton-card"
+  >
     <t-skeleton
       animation="flashed"
       :loading="true"
-      :row-col="[{ width: '200rpx', height: '200rpx', borderRadius: '8rpx' }]"
+      :row-col="[{ width: '200rpx', height: '200rpx' }]"
     />
     <view class="skeleton-card__info">
       <t-skeleton
