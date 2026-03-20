@@ -173,12 +173,16 @@
     >
       <t-picker-item :options="professionColumns" />
     </t-picker>
+    <TDialog ref="t-dialog" />
     <!-- </t-popup> -->
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
+
+import { type TdFormProps } from '@tdesign/uniapp';
+import TDialog from '@tdesign/uniapp/dialog/dialog.vue';
 
 import NavBar from '@/components/nav-bar.vue';
 import { addPerson } from '@/config/user-info';
@@ -211,7 +215,7 @@ const professionColumns = [
 ];
 
 // 表单验证规则
-const rules = {
+const rules: TdFormProps['rules'] = {
   name: [
     { required: true, message: '请输入姓名' },
     {

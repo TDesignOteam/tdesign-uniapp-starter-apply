@@ -14,7 +14,8 @@
       "dom"
     ],
     "types": [
-      "@dcloudio/types"
+      "@dcloudio/types",
+      "@tdesign/uniapp/global",
     ]
   },
   "include": [
@@ -22,6 +23,5 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "node_modules/@tdesign/uniapp/global.d.ts"
   ]
 }
