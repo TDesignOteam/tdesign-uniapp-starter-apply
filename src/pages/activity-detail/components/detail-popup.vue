@@ -289,7 +289,7 @@ const dateText = computed<string>(() => {
     z-index: 99;
     top: -22rpx;
     color: @gy3;
-    background: url(/static/half-circle.png) no-repeat center center;
+    background: url(https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/half-circle.png) no-repeat center center;
     background-size: 100% 100%;
     width: 76px;
     left: 50%;

@@ -13,7 +13,7 @@
           />
           <t-avatar
             v-else
-            :image="profile?.avatar || '/static/avatar.jpeg'"
+            :image="profile?.avatar || 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg'"
             size="large"
           />
         </view>

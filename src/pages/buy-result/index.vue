@@ -45,7 +45,7 @@
       报名人员
     </text>
     <view class="person-info">
-      <t-avatar image="/static/avatar.jpeg" />
+      <t-avatar image="https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg" />
       <view class="person-info__details">
         <text class="person-info__name">
           {{ selectedPerson.name }}

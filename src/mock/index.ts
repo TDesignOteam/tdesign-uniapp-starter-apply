@@ -4,10 +4,10 @@ const mockStore: Record<string, any> = {};
 const ACTIVITY_DETAIL_1 =  {
   id: '1',
   title: '2024深圳设计周',
-  cover: '/static/activity/cover1.png',
-  banner: '/static/mock-imgs/activity/sicc2021.png',
-  guestImages: ['/static/mock-imgs/activity/guests1.png', '/static/mock-imgs/activity/guests2.png'],
-  sceneImages: ['/static/mock-imgs/activity/location1.png', '/static/mock-imgs/activity/location2.png'],
+  cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover1.png',
+  banner: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2021.png',
+  guestImages: ['https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/guests1.png', 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/guests2.png'],
+  sceneImages: ['https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/location1.png', 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/location2.png'],
   score: 4.5,
   minPrice: 0,
   maxPrice: 0,
@@ -18,26 +18,26 @@ const ACTIVITY_DETAIL_1 =  {
   introduce: '深圳设计周是深圳市年度大型设计活动，汇集国内外知名设计师和设计机构。本届设计周以"设计赋能城市"为主题，展出包括工业设计、建筑设计、平面设计等多个领域的优秀作品，为参与者提供灵感碰撞和跨界交流的平台。',
   interestedCount: 1200,
   interestedPeople: [
-    { id: '1', name: '设计师小王', avatar: '/static/avatar.jpeg' },
-    { id: '2', name: '创意达人', avatar: '/static/avatar.jpeg' },
-    { id: '3', name: '艺术家老李', avatar: '/static/avatar.jpeg' },
-    { id: '4', name: '产品经理', avatar: '/static/avatar.jpeg' },
-    { id: '5', name: '视觉设计师', avatar: '/static/avatar.jpeg' },
-    { id: '6', name: 'UI小姐姐', avatar: '/static/avatar.jpeg' },
+    { id: '1', name: '设计师小王', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '2', name: '创意达人', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '3', name: '艺术家老李', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '4', name: '产品经理', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '5', name: '视觉设计师', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '6', name: 'UI小姐姐', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
   ],
   comments: [
-    { id: 'c1', user: '设计爱好者', avatar: '/static/avatar.jpeg', rating: 5, content: '展览规模宏大，作品质量很高，特别是工业设计展区让人大开眼界。' },
-    { id: 'c2', user: '创意总监', avatar: '/static/avatar.jpeg', rating: 4, content: '每年必来的设计周，今年的互动体验区做得比以往更好了！' },
-    { id: 'c3', user: '平面设计师', avatar: '/static/avatar.jpeg', rating: 4.5, content: '认识了很多同行，交流收获很大，期待明年的活动。' },
+    { id: 'c1', user: '设计爱好者', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', rating: 5, content: '展览规模宏大，作品质量很高，特别是工业设计展区让人大开眼界。' },
+    { id: 'c2', user: '创意总监', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', rating: 4, content: '每年必来的设计周，今年的互动体验区做得比以往更好了！' },
+    { id: 'c3', user: '平面设计师', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', rating: 4.5, content: '认识了很多同行，交流收获很大，期待明年的活动。' },
   ],
 };
 const ACTIVITY_DETAIL_2 =  {
   id: '2',
   title: 'Vue Conf 2024 技术大会',
-  cover: '/static/activity/cover2.png',
-  banner: '/static/mock-imgs/activity/sicc2021.png',
-  guestImages: ['/static/mock-imgs/activity/guests1.png', '/static/mock-imgs/activity/guests2.png'],
-  sceneImages: ['/static/mock-imgs/activity/location1.png', '/static/mock-imgs/activity/location2.png'],
+  cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover2.png',
+  banner: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2021.png',
+  guestImages: ['https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/guests1.png', 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/guests2.png'],
+  sceneImages: ['https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/location1.png', 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/location2.png'],
   score: 4.8,
   minPrice: 199,
   maxPrice: 599,
@@ -48,14 +48,14 @@ const ACTIVITY_DETAIL_2 =  {
   introduce: 'Vue Conf 技术大会，邀请 Vue.js 核心团队成员分享最新技术动态和最佳实践。大会涵盖 Vue 3 组合式 API、Vite 工具链、SSR 方案、状态管理等前沿话题，是前端开发者不可错过的年度盛会。',
   interestedCount: 800,
   interestedPeople: [
-    { id: '1', name: '开发者A', avatar: '/static/avatar.jpeg' },
-    { id: '2', name: '开发者B', avatar: '/static/avatar.jpeg' },
-    { id: '3', name: '开发者C', avatar: '/static/avatar.jpeg' },
-    { id: '4', name: '开发者D', avatar: '/static/avatar.jpeg' },
+    { id: '1', name: '开发者A', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '2', name: '开发者B', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '3', name: '开发者C', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
+    { id: '4', name: '开发者D', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg' },
   ],
   comments: [
-    { id: 'c1', user: '前端小哥', avatar: '/static/avatar.jpeg', rating: 5, content: '干货满满！尤其是 Vue 3 性能优化部分，学到了很多实用技巧。' },
-    { id: 'c2', user: 'JS爱好者', avatar: '/static/avatar.jpeg', rating: 4.5, content: '讲师阵容强大，内容紧凑丰富，唯一遗憾是时间太短了。' },
+    { id: 'c1', user: '前端小哥', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', rating: 5, content: '干货满满！尤其是 Vue 3 性能优化部分，学到了很多实用技巧。' },
+    { id: 'c2', user: 'JS爱好者', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', rating: 4.5, content: '讲师阵容强大，内容紧凑丰富，唯一遗憾是时间太短了。' },
   ],
 };
 
@@ -68,32 +68,32 @@ export function initMock() {
       {
         id: '1',
         name: '2019 SICC服务设计创新大会',
-        url: '/static/mock-imgs/activity/sicc2019.png',
+        url: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2019.png',
       },
       {
         id: '2',
         name: '2021 SICC服务设计创新大会',
-        url: '/static/mock-imgs/activity/sicc2021.png',
+        url: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2021.png',
       },
       {
         id: '3',
         name: '第一届SICC服务创新大会',
-        url: '/static/mock-imgs/activity/sicc2019.png',
+        url: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2019.png',
       },
       {
         id: '4',
         name: '第三届SICC服务创新大会',
-        url: '/static/mock-imgs/activity/sicc2021.png',
+        url: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2021.png',
       },
       {
         id: '5',
         name: '2019年SICC服务设计创新大会',
-        url: '/static/mock-imgs/activity/sicc2019.png',
+        url: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2019.png',
       },
       {
         id: '6',
         name: '2021年SICC服务设计创新大会',
-        url: '/static/mock-imgs/activity/sicc2021.png',
+        url: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/mock-imgs/activity/sicc2021.png',
       },
     ],
   };
@@ -106,7 +106,7 @@ export function initMock() {
         {
           id: '1',
           title: '2024深圳设计周',
-          cover: '/static/activity/cover1.png',
+          cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover1.png',
           score: 4.5,
           minPrice: 0,
           maxPrice: 0,
@@ -118,7 +118,7 @@ export function initMock() {
         {
           id: '2',
           title: 'Vue Conf 2024 技术大会',
-          cover: '/static/activity/cover2.png',
+          cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover2.png',
           score: 4.8,
           minPrice: 199,
           maxPrice: 599,
@@ -130,7 +130,7 @@ export function initMock() {
         {
           id: '3',
           title: '户外音乐节',
-          cover: '/static/activity/cover3.png',
+          cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover3.png',
           score: 4.2,
           minPrice: 280,
           maxPrice: 880,
@@ -142,7 +142,7 @@ export function initMock() {
         {
           id: '4',
           title: '亲子艺术工作坊',
-          cover: '/static/activity/cover1.png',
+          cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover1.png',
           score: 4.6,
           minPrice: 128,
           maxPrice: 328,
@@ -233,7 +233,7 @@ export function initMock() {
         title: '2024深圳设计周',
         status: '待参加',
         date: '2025-06-15',
-        cover: '/static/activity/cover1.png',
+        cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover1.png',
       },
       {
         id: '2',
@@ -241,7 +241,7 @@ export function initMock() {
         title: 'Vue Conf 2024 技术大会',
         status: '待参加',
         date: '2025-07-20',
-        cover: '/static/activity/cover2.png',
+        cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover2.png',
       },
       {
         id: '3',
@@ -249,7 +249,7 @@ export function initMock() {
         title: '春季户外音乐节',
         status: '已完成',
         date: '2024-04-10',
-        cover: '/static/activity/cover3.png',
+        cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover3.png',
       },
       {
         id: '4',
@@ -257,7 +257,7 @@ export function initMock() {
         title: '秋季户外音乐节',
         status: '已完成',
         date: '2024-04-10',
-        cover: '/static/activity/cover3.png',
+        cover: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/activity/cover3.png',
       },
     ],
     pagination: {
@@ -277,7 +277,7 @@ export function initMock() {
       name: 'TDesign',
       age: 29,
       occupation: '设计师',
-      avatar: '/static/avatar.jpeg',
+      avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg',
       city: '深圳',
     },
   };
@@ -286,9 +286,9 @@ export function initMock() {
   mockStore['/share/friends'] = {
     code: 200,
     data: [
-      { id: '1', name: '小明', avatar: '/static/avatar.jpeg', isDefault: false },
-      { id: '2', name: '小红', avatar: '/static/avatar.jpeg', isDefault: false },
-      { id: '3', name: '小王', avatar: '/static/avatar.jpeg', isDefault: false },
+      { id: '1', name: '小明', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', isDefault: false },
+      { id: '2', name: '小红', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', isDefault: false },
+      { id: '3', name: '小王', avatar: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg', isDefault: false },
     ],
   };
 
@@ -296,8 +296,8 @@ export function initMock() {
   mockStore['/share/app'] = {
     code: 200,
     data: [
-      { id: '1', name: '微信', icon: '/static/icon_wx.png' },
-      { id: '2', name: 'QQ', icon: '/static/icon_qq.png' },
+      { id: '1', name: '微信', icon: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/icon_wx.png' },
+      { id: '2', name: 'QQ', icon: 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/icon_qq.png' },
     ],
   };
 
