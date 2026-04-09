@@ -18,6 +18,7 @@
 
       <!-- 展开/收起切换按钮 -->
       <view
+        v-if="showToggleIcon"
         class="detail-popup__toggle"
         :class="{ 'detail-popup__toggle--active': showBottomPopup }"
         @click="onToggle"
@@ -196,7 +197,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 
 import { formatDate } from '@/utils/date';
 
@@ -210,10 +211,16 @@ interface Props {
   /** 弹层高度 */
   popupHeight?: string;
 }
+const showToggleIcon = ref(false);
+onMounted(() => {
+  setTimeout(() => {
+    showToggleIcon.value = true;
+  }, 500);
+});
 
 const props = withDefaults(defineProps<Props>(), {
   detail: null,
-  showBottomPopup: false,
+  showBottomPopup: true,
   popupHeight: '80vh',
 });
 

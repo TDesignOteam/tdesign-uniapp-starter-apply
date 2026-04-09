@@ -61,53 +61,17 @@
         />
       </t-tabs>
 
-      <view class="activity-list">
-        <ActivityCardSkeleton
-          v-if="isFetching && activities.length === 0"
-          :count="2"
+      <scroll-view
+        style="height: calc(100% - 96rpx);"
+        scroll-y
+        enhanced
+        :bounces="false"
+      >
+        <ActivityList
+          :activities="activities"
+          :is-fetching="isFetching"
         />
-        <t-empty
-          v-if="!isFetching && activities.length === 0"
-          description="暂无活动"
-        />
-        <view
-          v-for="item in activities"
-          :key="item.id"
-          class="activity-item"
-        >
-          <ActivityCard
-            :cover="item.cover"
-            :title="item.title"
-            @click="goDetail(item.id)"
-          >
-            <template #content>
-              <text class="activity-item__time">
-                {{ item.time }}
-              </text>
-            </template>
-            <template #footer>
-              <view class="activity-item__footer">
-                <text
-                  class="activity-item__status"
-                  :style="{ color: item.status === '已完成' ? '#00000066' : '#2ba471' }"
-                >
-                  {{ item.status }}
-                </text>
-                <t-button
-                  v-if="item.status === '已完成'"
-                  size="extra-small"
-                  theme="primary"
-                  variant="text"
-                  custom-style="margin-right: unset;"
-                  @click.stop="onReview(item.id)"
-                >
-                  去评价
-                </t-button>
-              </view>
-            </template>
-          </ActivityCard>
-        </view>
-      </view>
+      </scroll-view>
     </view>
   </view>
   <CustomTabBar />
@@ -119,25 +83,17 @@ import { ref, onMounted } from 'vue';
 import { getPersonActivities } from '@/api/activity';
 import { getUserProfile } from '@/api/user-info';
 
-import ActivityCardSkeleton from '@/components/activity-card-skeleton.vue';
-import ActivityCard from '@/components/activity-card.vue';
+import ActivityList from '@/components/activity-list.vue';
 import CustomTabBar from '@/components/custom-tab-bar.vue';
 import NavBar from '@/components/nav-bar.vue';
 import { formatDate } from '@/utils/date';
 
 import type { ActivityStatus } from '@/api/activity';
 import type { UserProfile } from '@/api/user-info';
+import type { ActivityItem } from '@/components/activity-list.vue';
 
 
 type TabValue = 'first' | 'second' | 'third';
-
-interface ActivityItem {
-  id: string;
-  cover: string;
-  title: string;
-  time: string;
-  status: ActivityStatus;
-}
 
 const tabValue = ref<TabValue>('first');
 const activities = ref<ActivityItem[]>([]);
@@ -198,29 +154,22 @@ function onTabChange({ value }: { value: number | string }) {
   fetchActivities();
 }
 
-/** 跳转活动详情 */
-function goDetail(id: string) {
-  uni.navigateTo({
-    url: `/pages/activity-detail/index?id=${id}`,
-  });
-}
-
-/** 评价 */
-function onReview(id: string) {
-  console.log('评价活动:', id);
-}
-
 onMounted(() => {
   fetchActivities();
   fetchProfile();
 });
 </script>
 
+<style>
+page {
+  background: #f3f3f3;
+}
+</style>
 <style lang="less" scoped>
 @import "@/styles/variable.less";
 
 .user-page {
-  min-height: calc(100vh - @tab-bar-height);
+  height: calc(100vh - @tab-bar-height - @nav-bar-height - var(--td-navbar-padding-top, 0px) - env(safe-area-inset-bottom));
   background-color: @bg-color;
 }
 
@@ -251,34 +200,12 @@ onMounted(() => {
 }
 
 .activity-section {
+  height: calc(100% - 196rpx);
   margin-top: 16rpx;
   background-color: @bg-color-white;
 
   :deep(.t-tabs) {
     --td-tab-item-tag-height: 80rpx;
-  }
-}
-
-.activity-list {
-  padding: 24rpx;
-  background-color: @bg-color;
-}
-
-.activity-item {
-  &__time {
-    font-size: @font-size-mini;
-    color: @gy2;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__status {
-    font-size: @font-size-small;
-    font-weight: 500;
   }
 }
 </style>

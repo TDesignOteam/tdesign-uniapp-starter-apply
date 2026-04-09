@@ -3,13 +3,15 @@
     {
       "path": "pages/main/base/index",
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "disableScroll": true
       }
     },
     {
       "path": "pages/main/user/index",
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "disableScroll": true
       }
     }
   ],
