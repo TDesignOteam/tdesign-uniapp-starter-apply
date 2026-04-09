@@ -40,7 +40,7 @@ onHide(() => {
 </script>
 
 <style lang="less">
-@import "@tdesign/uniapp/common/style/theme/index.less";
+@import "@tdesign/uniapp/theme.less";
 
 :root {
   --navbar-height: 48px;

@@ -135,12 +135,6 @@
       </t-button>
     </view>
 
-    <!-- 日期选择器 -->
-    <!-- <t-popup
-      :visible="showDatePicker"
-      placement="bottom"
-      @visible-change="onDatePopupChange"
-    > -->
     <t-date-time-picker
       :visible="showDatePicker"
       placement="bottom"
@@ -154,12 +148,7 @@
       @confirm="onDateConfirm"
       @cancel="showDatePicker = false"
     />
-    <!-- </t-popup> -->
 
-    <!-- 职业选择器 -->
-    <!-- <t-popup
-
-    > -->
     <t-picker
       :visible="showProfessionPicker"
       placement="bottom"
@@ -173,8 +162,8 @@
     >
       <t-picker-item :options="professionColumns" />
     </t-picker>
-    <TDialog ref="t-dialog" />
-    <!-- </t-popup> -->
+
+    <t-dialog ref="t-dialog" />
   </view>
 </template>
 
@@ -182,7 +171,6 @@
 import { ref, reactive } from 'vue';
 
 import { type TdFormProps } from '@tdesign/uniapp';
-import TDialog from '@tdesign/uniapp/dialog/dialog.vue';
 
 import NavBar from '@/components/nav-bar.vue';
 import { addPerson } from '@/config/user-info';

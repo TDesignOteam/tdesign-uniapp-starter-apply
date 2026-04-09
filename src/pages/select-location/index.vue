@@ -62,11 +62,19 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 
+import { handlePageScroll } from '@tdesign/uniapp';
+
 import request from '@/api/request';
 
 import NavBar from '@/components/nav-bar.vue';
 import { userInfoStore, updateLocationName } from '@/config/user-info';
 
+
+defineOptions({
+  onPageScroll(e) {
+    handlePageScroll(e);
+  },
+});
 
 interface CityItem {
   name: string;
