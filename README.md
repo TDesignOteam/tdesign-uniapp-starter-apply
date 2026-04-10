@@ -116,7 +116,7 @@ pnpm type-check
 
 > 💡 提交代码时会自动运行 lint-staged 进行代码检查和修复
 
-## 📁 项目结构
+## 项目结构
 
 ```
 ├── src/
@@ -138,21 +138,22 @@ pnpm type-check
 └── package.json          # 项目依赖
 ```
 
-## 🔗 相关链接
+## 相关链接
+
 - [TDesign Uniapp 组件库](https://tdesign.tencent.com/uniapp/getting-started)
 - [uni-app 官方文档](https://uniapp.dcloud.net.cn/)
 - [Vue 3 文档](https://cn.vuejs.org/)
 - [Vite 文档](https://cn.vitejs.dev/)
 
-## 📱 扫码预览
+## 扫码预览
 
-<img src="./docs/image/tdesign-uniapp-starter-apply-h5.png" width="300" />
+<img src="./docs/image/tdesign-uniapp-starter-apply-qrcode.png" width="300" />
 
-## 🎨 设计稿
+## 设计稿
 
 - **移动端活动报名页面模版**: [CoDesign](https://codesign.qq.com/app/s/578083411595522)
 - **访问密码**: `YFS5`
 
-## 📄 License
+## License
 
 [MIT](LICENSE)
