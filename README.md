@@ -147,7 +147,7 @@ pnpm type-check
 
 ## 扫码预览
 
-<img src="./docs/image/tdesign-uniapp-starter-apply-qrcode.png" width="300" />
+<img src="./docs/image/tdesign-uniapp-starter-apply-qrcode.png" height="200" />
 
 ## 设计稿
 
