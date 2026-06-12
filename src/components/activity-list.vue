@@ -27,7 +27,7 @@
           <view class="activity-item__footer">
             <text
               class="activity-item__status"
-              :style="{ color: item.status === '已完成' ? '#00000066' : '#2ba471' }"
+              :style="{ color: item.status === '已完成' ? 'var(--td-text-color-placeholder, #00000066)' : '#2ba471' }"
             >
               {{ item.status }}
             </text>
@@ -49,10 +49,11 @@
 </template>
 
 <script setup lang="ts">
+import type { ActivityStatus } from '@/api/activity';
+
 import ActivityCardSkeleton from '@/components/activity-card-skeleton.vue';
 import ActivityCard from '@/components/activity-card.vue';
 
-import type { ActivityStatus } from '@/api/activity';
 
 export interface ActivityItem {
   id: string;

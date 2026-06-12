@@ -78,12 +78,12 @@ defineOptions({
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #f3f3f3;
+    background: @bg-color;
 
     &--active {
       color: @brand7-normal;
       border: 2rpx solid @brand7-normal;
-      background: #ecf2fe;
+      background: var(--td-brand-color-1, #ecf2fe);
     }
   }
 }

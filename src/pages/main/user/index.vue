@@ -1,84 +1,92 @@
 <template>
-  <NavBar title="我的" />
-  <view class="user-page">
-    <!-- 用户卡片 -->
-    <view class="user-card">
-      <view class="user-card__info">
-        <view class="user-card__avatar">
-          <t-skeleton
-            v-if="isProfileLoading && !profile"
-            :loading="true"
-            animation="flashed"
-            :row-col="[{ height: '128rpx', width: '128rpx', type: 'circle' }]"
-          />
-          <t-avatar
-            v-else
-            :image="profile?.avatar || 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg'"
-            size="large"
-          />
-        </view>
-        <view class="user-card__meta">
-          <t-skeleton
-            v-if="isProfileLoading && !profile"
-            :loading="true"
-            animation="flashed"
-            :row-col="[{ height: '48rpx', width: '96rpx' }]"
-          />
-          <view v-else>
-            <text class="user-card__name">
-              {{ profile?.name }}
-            </text>
-            <view class="user-card__tag">
-              <t-tag variant="light">
-                {{ profile?.age }}岁
-              </t-tag>
-              <t-tag variant="light">
-                {{ profile?.occupation }}
-              </t-tag>
+  <view>
+    <NavBar title="我的" />
+    <view class="user-page">
+      <!-- 用户卡片 -->
+      <view class="user-card">
+        <view class="user-card__info">
+          <view class="user-card__avatar">
+            <t-skeleton
+              v-if="isProfileLoading && !profile"
+              :loading="true"
+              animation="flashed"
+              :row-col="[{ height: '128rpx', width: '128rpx', type: 'circle' }]"
+            />
+            <t-avatar
+              v-else
+              :image="profile?.avatar || 'https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg'"
+              size="large"
+            />
+          </view>
+          <view class="user-card__meta">
+            <t-skeleton
+              v-if="isProfileLoading && !profile"
+              :loading="true"
+              animation="flashed"
+              :row-col="[{ height: '48rpx', width: '96rpx' }]"
+            />
+            <view v-else>
+              <text class="user-card__name">
+                {{ profile?.name }}
+              </text>
+              <view class="user-card__tag">
+                <t-tag variant="light">
+                  {{ profile?.age }}岁
+                </t-tag>
+                <t-tag variant="light">
+                  {{ profile?.occupation }}
+                </t-tag>
+              </view>
             </view>
           </view>
         </view>
       </view>
-    </view>
 
-    <!-- 活动列表 -->
-    <view class="activity-section">
-      <t-tabs
-        :value="tabValue"
-        @change="onTabChange"
-      >
-        <t-tab-panel
-          value="first"
-          label="待参加"
-        />
-        <t-tab-panel
-          value="second"
-          label="已完成"
-        />
-        <t-tab-panel
-          value="third"
-          label="全部活动"
-        />
-      </t-tabs>
+      <!-- 活动列表 -->
+      <view class="activity-section">
+        <t-tabs
+          :value="tabValue"
+          @change="onTabChange"
+        >
+          <t-tab-panel
+            value="first"
+            label="待参加"
+          />
+          <t-tab-panel
+            value="second"
+            label="已完成"
+          />
+          <t-tab-panel
+            value="third"
+            label="全部活动"
+          />
+        </t-tabs>
 
-      <scroll-view
-        style="height: calc(100% - 96rpx);"
-        scroll-y
-        enhanced
-        :bounces="false"
-      >
-        <ActivityList
-          :activities="activities"
-          :is-fetching="isFetching"
-        />
-      </scroll-view>
+        <scroll-view
+          style="height: calc(100% - 96rpx);"
+          scroll-y
+          enhanced
+          :bounces="false"
+        >
+          <ActivityList
+            :activities="activities"
+            :is-fetching="isFetching"
+          />
+        </scroll-view>
+      </view>
     </view>
+    <CustomTabBar />
   </view>
-  <CustomTabBar />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+
+import type { ActivityStatus } from '@/api/activity';
+
+import type { UserProfile } from '@/api/user-info';
+
+import type { ActivityItem } from '@/components/activity-list.vue';
 
 import { getPersonActivities } from '@/api/activity';
 import { getUserProfile } from '@/api/user-info';
@@ -87,10 +95,6 @@ import ActivityList from '@/components/activity-list.vue';
 import CustomTabBar from '@/components/custom-tab-bar.vue';
 import NavBar from '@/components/nav-bar.vue';
 import { formatDate } from '@/utils/date';
-
-import type { ActivityStatus } from '@/api/activity';
-import type { UserProfile } from '@/api/user-info';
-import type { ActivityItem } from '@/components/activity-list.vue';
 
 
 type TabValue = 'first' | 'second' | 'third';
@@ -160,11 +164,6 @@ onMounted(() => {
 });
 </script>
 
-<style>
-page {
-  background: #f3f3f3;
-}
-</style>
 <style lang="less" scoped>
 @import "@/styles/variable.less";
 

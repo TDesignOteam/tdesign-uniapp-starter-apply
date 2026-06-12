@@ -1,140 +1,146 @@
 <template>
-  <NavBar show-location />
-  <view
-    class="home-container"
-  >
-    <view class="home-content">
-      <scroll-view
-        scroll-y
-        :bounces="false"
-        style="height: 100%;"
-      >
-        <!-- 搜索框 -->
-        <view class="search-wrap">
-          <t-search
-            v-model="searchValue"
-            shape="round"
-            placeholder="搜索活动"
-            :clearable="true"
-          />
-        </view>
-
-        <!-- 热门推荐 -->
-        <view class="section">
-          <text class="section__title">
-            热门推荐
-          </text>
-          <ActivitySwiper
-            :list="swiperList"
-            :loading="isFetchingSwiper"
-            :navigation="{ type: 'dots-bar' }"
-            height="300rpx"
-          />
-        </view>
-
-        <!-- 全部活动 -->
-        <view class="section">
-          <text class="section__title">
-            全部活动
-          </text>
-          <view class="tab-wrap">
-            <view class="tab-wrap__tabs">
-              <t-tabs
-                v-model:value="currentTab"
-                :split="false"
-                :show-bottom-line="false"
-                @change="onTabChange"
-              >
-                <t-tab-panel
-                  value="latest"
-                  label="最新活动"
-                />
-                <t-tab-panel
-                  value="top"
-                  label="高分活动"
-                />
-              </t-tabs>
-            </view>
-            <view
-              class="tab-wrap__filter"
-              @click="filterPopupVisible = true"
-            >
-              <t-icon
-                name="filter"
-                size="32rpx"
-              />
-              <text class="tab-wrap__filter-text">
-                筛选
-              </text>
-            </view>
+  <view>
+    <NavBar show-location />
+    <view
+      class="home-container"
+    >
+      <view class="home-content">
+        <scroll-view
+          scroll-y
+          :bounces="false"
+          style="height: 100%;"
+        >
+          <!-- 搜索框 -->
+          <view class="search-wrap">
+            <t-search
+              v-model:value="searchValue"
+              shape="round"
+              placeholder="搜索活动"
+              :clearable="true"
+            />
           </view>
-        </view>
 
-        <t-divider custom-style="margin: 0" />
+          <!-- 热门推荐 -->
+          <view class="section">
+            <text class="section__title">
+              热门推荐
+            </text>
+            <ActivitySwiper
+              :list="swiperList"
+              :loading="isFetchingSwiper"
+              :navigation="{ type: 'dots-bar' }"
+              height="300rpx"
+            />
+          </view>
 
-        <!-- 活动列表 -->
-        <view
-          v-if="!isFetching && activityList.length === 0"
-          class="empty-wrap"
-        >
-          <t-empty description="暂无相关活动" />
-          <text class="empty-wrap__hint">
-            换个筛选条件试试，或许有惊喜哦～
-          </text>
-        </view>
-
-        <view v-else-if="isFetching && activityList.length === 0">
-          <ActivityCardSkeleton />
-        </view>
-
-        <view
-          v-else
-          class="activity-list"
-        >
-          <ActivityCard
-            v-for="item in activityList"
-            :key="item.id"
-            :cover="item.cover"
-            :title="item.title"
-            @click="goDetail(item.id)"
-          >
-            <template #content>
-              <view class="rate-wrap">
-                <t-rate
-                  :value="item.score"
-                  size="28rpx"
-                  variant="filled"
-                  allow-half
-                  disabled
+          <!-- 全部活动 -->
+          <view class="section">
+            <text class="section__title">
+              全部活动
+            </text>
+            <view class="tab-wrap">
+              <view class="tab-wrap__tabs">
+                <t-tabs
+                  v-model:value="currentTab"
+                  :split="false"
+                  :show-bottom-line="false"
+                  @change="onTabChange"
+                >
+                  <t-tab-panel
+                    value="latest"
+                    label="最新活动"
+                  />
+                  <t-tab-panel
+                    value="top"
+                    label="高分活动"
+                  />
+                </t-tabs>
+              </view>
+              <view
+                class="tab-wrap__filter"
+                @click="filterPopupVisible = true"
+              >
+                <t-icon
+                  name="filter"
+                  size="32rpx"
                 />
-                <text class="rate-text">
-                  {{ item.score }}分
+                <text class="tab-wrap__filter-text">
+                  筛选
                 </text>
               </view>
-            </template>
-            <template #footer>
-              <text class="price">
-                {{ item.formattedPrice }}
-              </text>
-            </template>
-          </ActivityCard>
-        </view>
-      </scroll-view>
-    </view>
-  </view>
-  <CustomTabBar />
+            </view>
+          </view>
 
-  <!-- 筛选弹窗 -->
-  <ActivityFilterPopup
-    v-model:visible="filterPopupVisible"
-    :filters="filters"
-    @reset="resetAndFetch"
-    @update:filters="handleFiltersUpdate"
-  />
+          <t-divider custom-style="margin: 0" />
+
+          <!-- 活动列表 -->
+          <view
+            v-if="!isFetching && activityList.length === 0"
+            class="empty-wrap"
+          >
+            <t-empty description="暂无相关活动" />
+            <text class="empty-wrap__hint">
+              换个筛选条件试试，或许有惊喜哦～
+            </text>
+          </view>
+
+          <view v-else-if="isFetching && activityList.length === 0">
+            <ActivityCardSkeleton />
+          </view>
+
+          <view
+            v-else
+            class="activity-list"
+          >
+            <ActivityCard
+              v-for="item in activityList"
+              :key="item.id"
+              :cover="item.cover"
+              :title="item.title"
+              @click="goDetail(item.id)"
+            >
+              <template #content>
+                <view class="rate-wrap">
+                  <t-rate
+                    :value="item.score"
+                    size="28rpx"
+                    variant="filled"
+                    allow-half
+                    disabled
+                  />
+                  <text class="rate-text">
+                    {{ item.score }}分
+                  </text>
+                </view>
+              </template>
+              <template #footer>
+                <text class="price">
+                  {{ item.formattedPrice }}
+                </text>
+              </template>
+            </ActivityCard>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+    <CustomTabBar />
+
+    <!-- 筛选弹窗 -->
+    <ActivityFilterPopup
+      v-model:visible="filterPopupVisible"
+      :filters="filters"
+      @reset="resetAndFetch"
+      @update:filters="handleFiltersUpdate"
+    />
+  </view>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
+
+import type { ActivityFilterParams } from '@/api/activity';
+
+import type { SwiperItem } from '@/components/activity-swiper.vue';
 
 import request from '@/api/request';
 
@@ -146,10 +152,6 @@ import CustomTabBar from '@/components/custom-tab-bar.vue';
 import NavBar from '@/components/nav-bar.vue';
 import { defaultFilterOptions } from '@/constant/filters';
 import { formatPrice } from '@/utils/formatters';
-
-import type { ActivityFilterParams } from '@/api/activity';
-
-import type { SwiperItem } from '@/components/activity-swiper.vue';
 
 
 interface ActivityItem {
@@ -348,6 +350,6 @@ onMounted(() => {
 .price {
   font-size: @font-size-default;
   font-weight: 600;
-  color: #e34d59;
+  color: var(--td-error-color, #e34d59);
 }
 </style>
