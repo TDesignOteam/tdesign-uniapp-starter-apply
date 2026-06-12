@@ -61,7 +61,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-4080420251103001",
     "@dcloudio/uni-mp-xhs": "3.0.0-4080420251103001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4080420251103001",
-    "@tdesign/uniapp": "0.8.1",
+    "@tdesign/uniapp": "0.9.1",
     "@tdesign/uniapp-chat": "latest",
     "dayjs": "^1.11.13",
     "t-comm": "^3.0.25",
