@@ -39,6 +39,7 @@ export default defineConfig({
             'star',
             'star-filled',
             'user-add',
+            'heart-filled',
           ],
           // 开启调试模式可查看处理日志
           debug: true,

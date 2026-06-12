@@ -1,81 +1,83 @@
 <template>
-  <NavBar
-    title="购买结果"
-    :show-back="true"
-  />
-  <view class="result-page">
-    <!-- 成功状态 -->
-    <view class="result-status">
-      <t-result
-        theme="success"
-        title="购买成功"
-      />
-    </view>
+  <view>
+    <NavBar
+      title="购买结果"
+      :show-back="true"
+    />
+    <view class="result-page">
+      <!-- 成功状态 -->
+      <view class="result-status">
+        <t-result
+          theme="success"
+          title="购买成功"
+        />
+      </view>
 
-    <!-- 活动信息卡片 -->
-    <view class="activity-card">
-      <t-image
-        :src="activity.cover"
-        mode="aspectFill"
-        custom-style="width: 100%; height: 240rpx; border-radius: 16rpx;"
-      />
-      <text class="activity-card__name">
-        {{ activity.name }}
+      <!-- 活动信息卡片 -->
+      <view class="activity-card">
+        <t-image
+          :src="activity.cover"
+          mode="aspectFill"
+          custom-style="width: 100%; height: 240rpx; border-radius: 16rpx;"
+        />
+        <text class="activity-card__name">
+          {{ activity.name }}
+        </text>
+        <view class="activity-card__details">
+          <view class="activity-card__item">
+            <t-icon
+              name="time"
+              size="32rpx"
+            />
+            <text>{{ activity.date }}</text>
+          </view>
+          <view class="activity-card__item">
+            <t-icon
+              name="location"
+              size="32rpx"
+            />
+            <text>{{ activity.address }}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 报名人员 -->
+      <text class="section-title">
+        报名人员
       </text>
-      <view class="activity-card__details">
-        <view class="activity-card__item">
-          <t-icon
-            name="time"
-            size="32rpx"
-          />
-          <text>{{ activity.date }}</text>
-        </view>
-        <view class="activity-card__item">
-          <t-icon
-            name="location"
-            size="32rpx"
-          />
-          <text>{{ activity.address }}</text>
+      <view class="person-info">
+        <t-avatar image="https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg" />
+        <view class="person-info__details">
+          <text class="person-info__name">
+            {{ selectedPerson.name }}
+          </text>
+          <text class="person-info__desc">
+            {{ selectedPerson.age }} {{ selectedPerson.occupation }}
+          </text>
         </view>
       </view>
-    </view>
 
-    <!-- 报名人员 -->
-    <text class="section-title">
-      报名人员
-    </text>
-    <view class="person-info">
-      <t-avatar image="https://cdn.uwayfly.com/tdesign-uniapp/starter-apply/avatar.jpeg" />
-      <view class="person-info__details">
-        <text class="person-info__name">
-          {{ selectedPerson.name }}
-        </text>
-        <text class="person-info__desc">
-          {{ selectedPerson.age }} {{ selectedPerson.occupation }}
-        </text>
+      <!-- 操作按钮 -->
+      <view class="action-buttons">
+        <t-button
+          theme="light"
+          variant="outline"
+          block
+          size="large"
+          icon="share"
+          @click="shareWithFriends"
+        >
+          分享给朋友
+        </t-button>
+        <t-button
+          theme="primary"
+          block
+          size="large"
+          @click="goToView"
+        >
+          去查看
+        </t-button>
       </view>
-    </view>
-
-    <!-- 操作按钮 -->
-    <view class="action-buttons">
-      <t-button
-        theme="light"
-        variant="outline"
-        block
-        size="large"
-        icon="share"
-        @click="shareWithFriends"
-      >
-        分享给朋友
-      </t-button>
-      <t-button
-        theme="primary"
-        block
-        size="large"
-        @click="goToView"
-      >
-        去查看
-      </t-button>
     </view>
   </view>
 </template>

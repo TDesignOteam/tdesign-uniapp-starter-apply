@@ -1,169 +1,171 @@
 <template>
-  <NavBar
-    title="个人信息"
-    :show-back="true"
-  />
-  <view class="person-page">
-    <view class="form-container">
-      <t-form
-        ref="formRef"
-        :data="formData"
-        :rules="rules"
-        label-align="left"
-        show-error-message
-        label-width="97px"
-        required-mark
-        required-mark-position="right"
-      >
-        <!-- 设为默认 -->
-        <t-form-item
-          label="设为默认"
-          name="isDefault"
-          content-align="right"
+  <view>
+    <NavBar
+      title="个人信息"
+      :show-back="true"
+    />
+    <view class="person-page">
+      <view class="form-container">
+        <t-form
+          ref="formRef"
+          :data="formData"
+          :rules="rules"
+          label-align="left"
+          show-error-message
+          label-width="97px"
+          required-mark
+          required-mark-position="right"
         >
-          <t-switch v-model="isDefault" />
-        </t-form-item>
+          <!-- 设为默认 -->
+          <t-form-item
+            label="设为默认"
+            name="isDefault"
+            content-align="right"
+          >
+            <t-switch v-model="isDefault" />
+          </t-form-item>
 
-        <!-- 姓名 -->
-        <t-form-item
-          label="姓名"
-          name="name"
-        >
-          <t-input
-            v-model:value="formData.name"
-            placeholder="请输入姓名"
-            borderless
-            align="left"
-            :maxlength="30"
-          />
-        </t-form-item>
-
-        <!-- 生日 -->
-        <t-form-item
-          label="生日"
-          name="birthday"
-        >
-          <view
-            class="input-with-icon"
-            @click="showDatePicker = true"
+          <!-- 姓名 -->
+          <t-form-item
+            label="姓名"
+            name="name"
           >
             <t-input
-              v-model:value="formData.birthday"
-              placeholder="请选择生日"
+              v-model:value="formData.name"
+              placeholder="请输入姓名"
+              borderless
+              align="left"
+              :maxlength="30"
+            />
+          </t-form-item>
+
+          <!-- 生日 -->
+          <t-form-item
+            label="生日"
+            name="birthday"
+          >
+            <view
+              class="input-with-icon"
+              @click="showDatePicker = true"
+            >
+              <t-input
+                v-model:value="formData.birthday"
+                placeholder="请选择生日"
+                borderless
+                align="left"
+                readonly
+              />
+              <t-icon
+                name="calendar"
+                size="40rpx"
+                class="calendar-icon"
+                @click="showDatePicker = true"
+              />
+            </view>
+          </t-form-item>
+
+          <!-- 手机号 -->
+          <t-form-item
+            label="手机号"
+            name="phone"
+          >
+            <t-input
+              v-model:value="formData.phone"
+              placeholder="请输入手机号"
+              borderless
+              align="left"
+              :maxlength="11"
+            />
+          </t-form-item>
+
+          <!-- 身份证 -->
+          <t-form-item
+            label="身份证"
+            name="idCard"
+          >
+            <t-input
+              v-model:value="formData.idCard"
+              placeholder="请输入您的身份证号码"
+              borderless
+              align="left"
+              :maxlength="18"
+            />
+          </t-form-item>
+
+          <!-- 邮箱 -->
+          <t-form-item
+            label="邮箱"
+            name="email"
+          >
+            <t-input
+              v-model="formData.email"
+              placeholder="请输入您的邮箱"
+              borderless
+              align="left"
+              :maxlength="35"
+            />
+          </t-form-item>
+
+          <!-- 职业 -->
+          <t-form-item
+            label="职业"
+            name="profession"
+            arrow
+          >
+            <t-input
+              v-model:value="formData.profession"
+              placeholder="请选择职业"
               borderless
               align="left"
               readonly
+              @click="showProfessionPicker = true"
             />
-            <t-icon
-              name="calendar"
-              size="40rpx"
-              class="calendar-icon"
-              @click="showDatePicker = true"
-            />
-          </view>
-        </t-form-item>
+          </t-form-item>
+        </t-form>
+      </view>
 
-        <!-- 手机号 -->
-        <t-form-item
-          label="手机号"
-          name="phone"
+      <!-- 底部确认按钮 -->
+      <view class="bottom-action">
+        <t-button
+          theme="primary"
+          block
+          size="large"
+          @click="handleConfirm"
         >
-          <t-input
-            v-model:value="formData.phone"
-            placeholder="请输入手机号"
-            borderless
-            align="left"
-            :maxlength="11"
-          />
-        </t-form-item>
+          确定
+        </t-button>
+      </view>
 
-        <!-- 身份证 -->
-        <t-form-item
-          label="身份证"
-          name="idCard"
-        >
-          <t-input
-            v-model:value="formData.idCard"
-            placeholder="请输入您的身份证号码"
-            borderless
-            align="left"
-            :maxlength="18"
-          />
-        </t-form-item>
+      <t-date-time-picker
+        :visible="showDatePicker"
+        placement="bottom"
+        :value="datePickerValue"
+        title="选择生日"
+        :mode="['date']"
+        start="1950-01-01"
+        end="2010-12-31"
+        format="YYYY-MM-DD"
+        @visible-change="onDatePopupChange"
+        @confirm="onDateConfirm"
+        @cancel="showDatePicker = false"
+      />
 
-        <!-- 邮箱 -->
-        <t-form-item
-          label="邮箱"
-          name="email"
-        >
-          <t-input
-            v-model="formData.email"
-            placeholder="请输入您的邮箱"
-            borderless
-            align="left"
-            :maxlength="35"
-          />
-        </t-form-item>
-
-        <!-- 职业 -->
-        <t-form-item
-          label="职业"
-          name="profession"
-          arrow
-        >
-          <t-input
-            v-model:value="formData.profession"
-            placeholder="请选择职业"
-            borderless
-            align="left"
-            readonly
-            @click="showProfessionPicker = true"
-          />
-        </t-form-item>
-      </t-form>
-    </view>
-
-    <!-- 底部确认按钮 -->
-    <view class="bottom-action">
-      <t-button
-        theme="primary"
-        block
-        size="large"
-        @click="handleConfirm"
+      <t-picker
+        :visible="showProfessionPicker"
+        placement="bottom"
+        :value="professionPickerValue"
+        title="选择职业"
+        cancel-btn="取消"
+        confirm-btn="确认"
+        @visible-change="onProfessionPopupChange"
+        @confirm="onProfessionConfirm"
+        @cancel="showProfessionPicker = false"
       >
-        确定
-      </t-button>
+        <t-picker-item :options="professionColumns" />
+      </t-picker>
+
+      <t-dialog ref="t-dialog" />
     </view>
-
-    <t-date-time-picker
-      :visible="showDatePicker"
-      placement="bottom"
-      :value="datePickerValue"
-      title="选择生日"
-      :mode="['date']"
-      start="1950-01-01"
-      end="2010-12-31"
-      format="YYYY-MM-DD"
-      @visible-change="onDatePopupChange"
-      @confirm="onDateConfirm"
-      @cancel="showDatePicker = false"
-    />
-
-    <t-picker
-      :visible="showProfessionPicker"
-      placement="bottom"
-      :value="professionPickerValue"
-      title="选择职业"
-      cancel-btn="取消"
-      confirm-btn="确认"
-      @visible-change="onProfessionPopupChange"
-      @confirm="onProfessionConfirm"
-      @cancel="showProfessionPicker = false"
-    >
-      <t-picker-item :options="professionColumns" />
-    </t-picker>
-
-    <t-dialog ref="t-dialog" />
   </view>
 </template>
 

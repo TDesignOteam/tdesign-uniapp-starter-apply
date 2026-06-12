@@ -39,25 +39,40 @@
     <view
       v-if="!loading && list.length > 0"
       class="activity-swiper__content"
+      :style="contentStyle"
     >
       <t-swiper
+        :current="currentIndex"
         :list="swiperData"
         :autoplay="autoplay"
-        :navigation="resolvedNavigation"
+        :navigation="false"
         :height="height"
         :loop="loop"
         :interval="interval"
         :image-props="{ mode: 'aspectFill',shape: 'round' }"
-        previous-margin="34px"
-        next-margin="34px"
+        :previous-margin="previousMargin"
+        :next-margin="nextMargin"
+        @change="onSwiperChange"
         @click="onItemClick"
       />
+      <!-- 外部独立圆点指示器（设计稿位置） -->
+      <view
+        v-if="showDots && list.length > 1"
+        class="activity-swiper__dots"
+      >
+        <view
+          v-for="(_item, idx) in list"
+          :key="idx"
+          class="activity-swiper__dot"
+          :class="{ 'activity-swiper__dot--active': idx === currentIndex }"
+        />
+      </view>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 /** 轮播图数据项 */
 export interface SwiperItem {
@@ -102,6 +117,30 @@ const props = withDefaults(
 const emit = defineEmits<{(e: 'click', item: SwiperItem): void;
 }>();
 
+/** 当前轮播索引 */
+const currentIndex = ref(0);
+
+/** 是否展示外部圆点（navigation 为 false 时不展示） */
+const showDots = computed(() => props.navigation !== false);
+
+/** 根据 marginPosition 计算左/右露出的边距 */
+const SIDE_MARGIN = '34px'; // 用于露出"上一张/下一张"的预览宽度
+const EDGE_MARGIN = '16px'; // 不露出方向上保留的最小留白，避免完全贴边
+const previousMargin = computed(() => (props.marginPosition === 'right' ? EDGE_MARGIN : SIDE_MARGIN));
+const nextMargin = computed(() => (props.marginPosition === 'left' ? EDGE_MARGIN : SIDE_MARGIN));
+
+/** 根据 marginPosition 动态调整 swiper item padding，使第一张/最后一张可以贴边 */
+const contentStyle = computed(() => {
+  if (props.marginPosition === 'right') {
+    // 仅右侧露出：左边由 previousMargin 提供留白，item 之间用右 padding 拉开
+    return '--td-swiper-item-padding: 0 24rpx 0 0;';
+  }
+  if (props.marginPosition === 'left') {
+    return '--td-swiper-item-padding: 0 0 0 24rpx;';
+  }
+  return '--td-swiper-item-padding: 0 12rpx;';
+});
+
 /**
  * 将业务数据转换为 t-swiper 的 SwiperList[] 格式
  * t-swiper 接受 string[] 或 { value: string; ariaLabel: string }[]
@@ -111,16 +150,13 @@ const swiperData = computed(() => props.list.map(item => ({
   ariaLabel: item.name,
 })));
 
-// const swiperCustomStyle = computed(() => {
-//   const result = 'margin: 0 calc(calc(100vw - var(--swiper-width)) / 2 - 12px) 0 calc(calc(100vw - var(--swiper-width)) / 2)';
-//   return result;
-// });
-
-/** 导航器默认配置 */
-const resolvedNavigation = computed(() => {
-  if (props.navigation === false) return false;
-  return props.navigation ?? { type: 'dots', placement: 'bottom' };
-});
+/** swiper 切换 */
+const onSwiperChange = (e: { current: number } | { detail: { current: number } } | any) => {
+  const cur = e?.current ?? e?.detail?.current;
+  if (typeof cur === 'number') {
+    currentIndex.value = cur;
+  }
+};
 
 /** 点击轮播项 */
 const onItemClick = (context: { index: number }) => {
@@ -145,22 +181,30 @@ const onItemClick = (context: { index: number }) => {
     width: 100%;
 
     --td-swiper-radius: 0;
-    --td-swiper-item-padding: 0 12rpx;
-    --td-swiper-nav-dot-color: var(--td-bg-color-component, #e7e7e7);
-    --td-swiper-nav-dot-active-color: var(--td-brand-color, #0052d9);
+  }
 
-    padding-bottom: 18px;
+  /* 外部圆点指示器（设计稿位置：swiper 下方独立一行） */
+  &__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8rpx;
+    padding: 32rpx 0 8rpx;
+  }
 
+  &__dot {
+    width: 10rpx;
+    height: 10rpx;
+    border-radius: 50%;
+    background-color: var(--td-bg-color-component, #e7e7e7);
+    transition: background-color 0.2s ease, width 0.2s ease;
 
-    // .swiper {
-      // overflow: visible;
-      // :deep(.t-image) {
-      //   width: var(--swiper-width);
-      //   height: 100%;
-      //   box-shadow: var(--td-shadow-3);
-      // }
+    &--active {
+      width: 20rpx;
+      border-radius: 5rpx;
+      background-color: var(--td-brand-color, #0052d9);
     }
-  // }
+  }
 }
 
 .placeholder-wrapper {

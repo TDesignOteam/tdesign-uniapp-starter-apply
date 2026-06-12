@@ -1,116 +1,127 @@
 <template>
-  <NavBar
-    title="详情"
-    :show-back="true"
-  />
-  <view class="detail-page">
-    <!-- 横幅图 -->
-    <view class="detail-banner">
-      <t-skeleton
-        v-if="!detail"
-        :loading="true"
-        :row-col="[{ width: '100%', height: '320rpx' }]"
-      />
-      <t-image
-        v-else
-        :src="detail.banner || detail.cover"
-        mode="aspectFill"
-        custom-style="width: 100%; height: 320rpx;"
-        class="detail-banner__image"
-      />
-    </view>
+  <view>
+    <NavBar
+      title="详情"
+      :show-back="true"
+    />
+    <view class="detail-page">
+      <!-- 横幅图 -->
+      <view class="detail-banner">
+        <t-skeleton
+          v-if="!detail"
+          :loading="true"
+          :row-col="[{ width: '100%', height: '320rpx' }]"
+        />
+        <t-image
+          v-else
+          :src="detail.banner || detail.cover"
+          mode="aspectFill"
+          custom-style="width: 100%; height: 320rpx;"
+          class="detail-banner__image"
+        />
+      </view>
 
-    <!-- 活动嘉宾 -->
-    <view
-      v-if="detail && guestImages.length > 0"
-      class="detail-section detail-section--animated"
-    >
-      <text class="detail-section__title">
-        活动嘉宾
-      </text>
-      <view class="detail-section__swiper">
-        <ActivitySwiper
-          :list="guestSwiperList"
-          :autoplay="false"
-          :navigation="{ type: 'dots' }"
-          margin-position="right"
-          height="320rpx"
-        />
-      </view>
-    </view>
-
-    <!-- 活动现场 -->
-    <view
-      v-if="detail && sceneImages.length > 0"
-      class="detail-section detail-section--animated"
-      style="animation-delay: 0.15s"
-    >
-      <text class="detail-section__title">
-        活动现场
-      </text>
-      <view class="detail-section__swiper">
-        <ActivitySwiper
-          :list="sceneSwiperList"
-          :autoplay="false"
-          :navigation="{ type: 'dots' }"
-          margin-position="right"
-          height="320rpx"
-        />
-      </view>
-    </view>
-  </view>
-
-  <!-- 底部操作栏 -->
-  <view class="detail-footer">
-    <view class="detail-footer__actions">
-      <view class="detail-footer__action">
-        <t-icon
-          name="heart"
-          size="40rpx"
-        />
-        <text class="detail-footer__action-text">
-          收藏
-        </text>
-      </view>
-      <view class="detail-footer__action">
-        <t-icon
-          name="share"
-          size="40rpx"
-        />
-        <text class="detail-footer__action-text">
-          分享
-        </text>
-      </view>
-    </view>
-    <view class="detail-footer__cta">
-      <t-button
-        v-if="!isEnded"
-        theme="primary"
-        size="large"
-        block
-        @click="handleBuy"
+      <!-- 活动嘉宾 -->
+      <view
+        v-if="detail && guestImages.length > 0"
+        class="detail-section detail-section--animated"
       >
-        立即购买 {{ priceText }}
-      </t-button>
-      <t-button
-        v-else
-        theme="primary"
-        size="large"
-        block
-        disabled
-      >
-        已下架
-      </t-button>
-    </view>
-  </view>
+        <text class="detail-section__title">
+          活动嘉宾
+        </text>
+        <view class="detail-section__swiper">
+          <ActivitySwiper
+            :list="guestSwiperList"
+            :autoplay="false"
+            :navigation="{ type: 'dots' }"
+            margin-position="right"
+            height="320rpx"
+          />
+        </view>
+      </view>
 
-  <!-- 底部弹层：活动信息详情 -->
-  <DetailPopup
-    :detail="detail"
-    :show-bottom-popup="showBottomPopup"
-    :popup-height="popupHeight"
-    @toggle="controlPopup"
-  />
+      <!-- 活动现场 -->
+      <view
+        v-if="detail && sceneImages.length > 0"
+        class="detail-section detail-section--animated"
+        style="animation-delay: 0.15s"
+      >
+        <text class="detail-section__title">
+          活动现场
+        </text>
+        <view class="detail-section__swiper">
+          <ActivitySwiper
+            :list="sceneSwiperList"
+            :autoplay="false"
+            :navigation="{ type: 'dots' }"
+            margin-position="right"
+            height="320rpx"
+          />
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="detail-footer">
+      <view class="detail-footer__actions">
+        <view
+          class="detail-footer__action"
+          hover-class="detail-footer__action--hover"
+          @click="handleFavorite"
+        >
+          <t-icon
+            :name="isFavorite ? 'heart-filled' : 'heart'"
+            size="40rpx"
+            :color="isFavorite ? '#e34d59' : ''"
+          />
+          <text class="detail-footer__action-text">
+            收藏
+          </text>
+        </view>
+        <view
+          class="detail-footer__action"
+          hover-class="detail-footer__action--hover"
+          @click="handleShare"
+        >
+          <t-icon
+            name="share"
+            size="40rpx"
+          />
+          <text class="detail-footer__action-text">
+            分享
+          </text>
+        </view>
+      </view>
+      <view class="detail-footer__cta">
+        <t-button
+          v-if="!isEnded"
+          theme="primary"
+          size="large"
+          block
+          @click="handleBuy"
+        >
+          立即购买 {{ priceText }}
+        </t-button>
+        <t-button
+          v-else
+          theme="primary"
+          size="large"
+          block
+          disabled
+        >
+          已下架
+        </t-button>
+      </view>
+    </view>
+
+    <!-- 底部弹层：活动信息详情 -->
+    <DetailPopup
+      :detail="detail"
+      :show-bottom-popup="showBottomPopup"
+      :popup-height="popupHeight"
+      @toggle="controlPopup"
+    />
+  </view>
 </template>
 
 <script setup lang="ts">
@@ -118,16 +129,16 @@ import { ref, computed } from 'vue';
 
 import { onLoad } from '@dcloudio/uni-app';
 
+import DetailPopup from './components/detail-popup.vue';
+
+import type { ActivityDetail } from '@/api/activity';
+
+import type { SwiperItem } from '@/components/activity-swiper.vue';
+
 import { getActivityDetail } from '@/api/activity';
 import ActivitySwiper from '@/components/activity-swiper.vue';
 import NavBar from '@/components/nav-bar.vue';
 import { isExpired } from '@/utils/date';
-
-
-import DetailPopup from './components/detail-popup.vue';
-
-import type { ActivityDetail } from '@/api/activity';
-import type { SwiperItem } from '@/components/activity-swiper.vue';
 
 
 const activityId = ref('');
@@ -174,6 +185,29 @@ const isEnded = computed(() => {
   if (!detail.value?.date) return false;
   return isExpired(detail.value.date);
 });
+
+/** 是否已收藏 */
+const isFavorite = ref(false);
+
+/** 收藏 */
+function handleFavorite() {
+  isFavorite.value = !isFavorite.value;
+  uni.showToast({
+    title: isFavorite.value ? '已收藏' : '已取消收藏',
+    icon: 'none',
+  });
+}
+
+/** 分享 */
+function handleShare() {
+  // #ifdef MP-WEIXIN
+  uni.showShareMenu?.({ withShareTicket: true });
+  uni.showToast({ title: '请点击右上角分享', icon: 'none' });
+  // #endif
+  // #ifndef MP-WEIXIN
+  uni.showToast({ title: '分享功能开发中', icon: 'none' });
+  // #endif
+}
 
 /** 切换底部弹层 */
 function controlPopup() {
@@ -262,11 +296,11 @@ page {
 /* 分区 */
 .detail-section {
   color: #fff;
-  margin-left: 32rpx;
   margin-bottom: 32rpx;
 
   &__title {
     display: block;
+    padding: 0 32rpx;
     font-size: @font-size-default;
     font-weight: 600;
     text-align: left;
@@ -312,6 +346,11 @@ page {
     flex-direction: column;
     align-items: center;
     width: 80rpx;
+    transition: opacity 0.2s ease;
+  }
+
+  &__action--hover {
+    opacity: 0.6;
   }
 
   &__action-text {

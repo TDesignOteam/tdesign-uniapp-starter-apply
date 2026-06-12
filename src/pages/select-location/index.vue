@@ -1,60 +1,62 @@
 <template>
-  <NavBar
-    title="选择城市"
-    :show-back="true"
-  />
-  <view class="location-page">
-    <!-- 当前定位 -->
-    <view class="location-current">
-      <view class="location-current__info">
-        <t-icon
-          name="location"
-          size="44rpx"
-        />
-        <text class="location-current__name">
-          {{ locationName }}
-        </text>
+  <view>
+    <NavBar
+      title="选择城市"
+      :show-back="true"
+    />
+    <view class="location-page">
+      <!-- 当前定位 -->
+      <view class="location-current">
+        <view class="location-current__info">
+          <t-icon
+            name="location"
+            size="44rpx"
+          />
+          <text class="location-current__name">
+            {{ locationName }}
+          </text>
+        </view>
       </view>
-    </view>
 
-    <!-- 城市列表 -->
-    <view class="city-list">
-      <t-indexes
-        :index-list="indexList"
-        :sticky="false"
-      >
-        <template
-          v-for="item in cityList"
-          :key="`city-index-${item.index}`"
+      <!-- 城市列表 -->
+      <view class="city-list">
+        <t-indexes
+          :index-list="indexList"
+          :sticky="false"
         >
-          <t-indexes-anchor :index="item.index" />
-          <t-cell-group>
-            <t-cell
-              v-for="(val, i) in item.children"
-              :key="`city-${i}`"
-              @click="updateCity(val.name)"
-            >
-              <template #title>
-                <text
-                  :style="{ color: locationName === val.name ? '#0052d9' : '' }"
-                >
-                  {{ val.label }}
-                </text>
-              </template>
-              <template
-                v-if="locationName === val.name"
-                #right-icon
+          <template
+            v-for="item in cityList"
+            :key="`city-index-${item.index}`"
+          >
+            <t-indexes-anchor :index="item.index" />
+            <t-cell-group>
+              <t-cell
+                v-for="(val, i) in item.children"
+                :key="`city-${i}`"
+                @click="updateCity(val.name)"
               >
-                <t-icon
-                  name="check"
-                  size="48rpx"
-                  color="#0052d9"
-                />
-              </template>
-            </t-cell>
-          </t-cell-group>
-        </template>
-      </t-indexes>
+                <template #title>
+                  <text
+                    :style="{ color: locationName === val.name ? '#0052d9' : '' }"
+                  >
+                    {{ val.label }}
+                  </text>
+                </template>
+                <template
+                  v-if="locationName === val.name"
+                  #right-icon
+                >
+                  <t-icon
+                    name="check"
+                    size="48rpx"
+                    color="#0052d9"
+                  />
+                </template>
+              </t-cell>
+            </t-cell-group>
+          </template>
+        </t-indexes>
+      </view>
     </view>
   </view>
 </template>

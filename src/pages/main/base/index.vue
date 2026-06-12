@@ -8,6 +8,7 @@
         <scroll-view
           scroll-y
           :bounces="false"
+          :show-scrollbar="false"
           style="height: 100%;"
         >
           <!-- 搜索框 -->
@@ -253,16 +254,26 @@ onMounted(() => {
 
 .home-container {
   height: calc(100vh - @tab-bar-height - @nav-bar-height - var(--td-navbar-padding-top, 0px) - env(safe-area-inset-bottom));
+  background-color: @bg-color-white;
 
   .home-content {
     height: calc(100%);
     overflow: auto;
-    // background-color: @bg-color;
+    background-color: @bg-color-white;
+
+    /* 隐藏滚动条 (H5/小程序 PC 模拟器) */
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+      -webkit-appearance: none;
+      background: transparent;
+    }
   }
 }
 
 .search-wrap {
-  padding: 0 24rpx;
+  padding: 0 24rpx 24rpx;
   background-color: @bg-color-white;
 }
 
@@ -289,6 +300,7 @@ onMounted(() => {
     :deep(.t-tabs) {
       --td-tab-item-tag-height: 72rpx;
       --td-tab-font-size: @font-size-small;
+      --td-tab-nav-bg-color: transparent;
     }
   }
 

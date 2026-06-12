@@ -33,6 +33,7 @@
       <scroll-view
         v-show="showBottomPopup"
         scroll-y
+        :show-scrollbar="false"
         class="detail-popup__content"
       >
         <template v-if="detail">
@@ -92,6 +93,7 @@
               <t-button
                 size="extra-small"
                 theme="light"
+                @click="handleNavigate"
               >
                 导航
               </t-button>
@@ -120,6 +122,7 @@
             </view>
             <scroll-view
               scroll-x
+              :show-scrollbar="false"
               class="popup-reviews__list"
             >
               <view class="popup-reviews__scroll">
@@ -199,9 +202,10 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue';
 
+import type { ActivityDetail } from '@/api/activity';
+
 import { formatDate } from '@/utils/date';
 
-import type { ActivityDetail } from '@/api/activity';
 
 interface Props {
   /** 活动详情数据 */
@@ -243,6 +247,29 @@ const dateText = computed<string>(() => {
   const date = props.detail?.date;
   return date ? formatDate(date as string | number | Date) : '';
 });
+
+/** 点击导航 */
+function handleNavigate() {
+  const address = props.detail?.address;
+  if (!address) {
+    uni.showToast({ title: '暂无地址信息', icon: 'none' });
+    return;
+  }
+  // #ifdef MP-WEIXIN
+  uni.openLocation?.({
+    latitude: 22.5429,
+    longitude: 113.9344,
+    name: address,
+    address,
+    fail: () => {
+      uni.showToast({ title: '打开地图失败', icon: 'none' });
+    },
+  });
+  // #endif
+  // #ifndef MP-WEIXIN
+  uni.showToast({ title: `目的地：${address}`, icon: 'none' });
+  // #endif
+}
 </script>
 
 <style lang="less" scoped>
@@ -263,6 +290,15 @@ const dateText = computed<string>(() => {
     padding-bottom: 160rpx;
     box-sizing: border-box;
     height: 100%;
+
+    /* 隐藏纵向滚动条 (H5/小程序 PC 模拟器) */
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+      -webkit-appearance: none;
+      background: transparent;
+    }
   }
 
   &__handle {
@@ -397,6 +433,15 @@ const dateText = computed<string>(() => {
   &__list {
     margin-top: 24rpx;
     white-space: nowrap;
+
+    /* 隐藏横向滚动条 */
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+      -webkit-appearance: none;
+      background: transparent;
+    }
   }
 
   &__scroll {

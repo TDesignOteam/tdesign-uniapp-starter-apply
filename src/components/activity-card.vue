@@ -43,8 +43,13 @@ defineOptions({
   display: flex;
   padding: 24rpx;
   background: @bg-color-white;
-  border-radius: 16rpx;
-  margin-bottom: 16rpx;
+  border-radius: 18rpx;
+  margin-bottom: 24rpx;
+  /* 设计稿外阴影 */
+  box-shadow:
+    0 12rpx 60rpx 10rpx rgba(0, 0, 0, 0.05),
+    0 32rpx 48rpx 4rpx rgba(0, 0, 0, 0.04),
+    0 16rpx 20rpx -10rpx rgba(0, 0, 0, 0.08);
 
   &__info {
     flex: 1;
