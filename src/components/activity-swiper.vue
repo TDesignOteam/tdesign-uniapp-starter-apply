@@ -45,7 +45,7 @@
         :current="currentIndex"
         :list="swiperData"
         :autoplay="autoplay"
-        :navigation="false"
+        :navigation="hiddenNavigation"
         :height="height"
         :loop="loop"
         :interval="interval"
@@ -120,6 +120,13 @@ const emit = defineEmits<{(e: 'click', item: SwiperItem): void;
 /** 当前轮播索引 */
 const currentIndex = ref(0);
 
+/**
+ * 传给 t-swiper 的 navigation 配置：
+ * 必须为真值，否则组件内部 watcher 会调用 H5 端不存在的 getRelationNodes 导致报错。
+ * 这里传一个最小的占位对象，实际样式通过 CSS 隐藏（已使用外部独立圆点指示器）。
+ */
+const hiddenNavigation = { type: 'dots' as const, minShowNum: 999 };
+
 /** 是否展示外部圆点（navigation 为 false 时不展示） */
 const showDots = computed(() => props.navigation !== false);
 
@@ -181,6 +188,11 @@ const onItemClick = (context: { index: number }) => {
     width: 100%;
 
     --td-swiper-radius: 0;
+
+    /* 隐藏 t-swiper 内置的导航（dots/fraction），使用下方自定义圆点 */
+    :deep(.t-swiper-nav) {
+      display: none !important;
+    }
   }
 
   /* 外部圆点指示器（设计稿位置：swiper 下方独立一行） */

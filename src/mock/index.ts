@@ -1,6 +1,14 @@
 // Mock 数据存储
 const mockStore: Record<string, any> = {};
 
+/** 正则路由：当 mockStore 未命中时按顺序匹配，返回兜底 mock 数据 */
+type MockRoute = {
+  pattern: RegExp;
+  /** 根据正则捕获组生成 mock 响应 */
+  resolve: (match: RegExpMatchArray) => any;
+};
+const mockRoutes: MockRoute[] = [];
+
 const ACTIVITY_DETAIL_1 =  {
   id: '1',
   title: '2024深圳设计周',
@@ -169,22 +177,6 @@ export function initMock() {
     data: {
       ...ACTIVITY_DETAIL_2,
       id: '2',
-    },
-  };
-
-  mockStore['/activities/3'] = {
-    code: 200,
-    data: {
-      ...ACTIVITY_DETAIL_1,
-      id: '3',
-    },
-  };
-
-  mockStore['/activities/4'] = {
-    code: 200,
-    data: {
-      ...ACTIVITY_DETAIL_2,
-      id: '4',
     },
   };
 
@@ -381,41 +373,93 @@ export function initMock() {
     ],
   };
 
+  // ====== 正则路由（兜底）======
+  // 当 mockStore 没有精确匹配时，按以下正则匹配返回兜底 mock 数据，避免新增活动 id 时漏配。
+  // 注意：仅在 path 严格匹配（^...$）时才命中，避免误伤。
+  mockRoutes.push(
+    // 活动详情：/activities/:id（数字 id），未在 mockStore 精确登记的活动用 ACTIVITY_DETAIL_1 兜底
+    {
+      pattern: /^\/activities\/(\d+)$/,
+      resolve: m => ({
+        code: 200,
+        data: {
+          ...ACTIVITY_DETAIL_1,
+          id: m[1],
+        },
+      }),
+    },
+    // 活动票类场次：/activities/:id/tickets
+    {
+      pattern: /^\/activities\/(\d+)\/tickets$/,
+      resolve: m => ({
+        code: 200,
+        data: [
+          { id: 't1', activityId: m[1], date: '上午场 10:00-12:00' },
+          { id: 't2', activityId: m[1], date: '下午场 14:00-17:00' },
+        ],
+      }),
+    },
+    // 活动票档价格：/activities/:id/prices
+    {
+      pattern: /^\/activities\/(\d+)\/prices$/,
+      resolve: m => ({
+        code: 200,
+        data: [
+          { id: 'p1', activityId: m[1], description: '普通票 - 单人', price: 199, originalPrice: 299, person: 1 },
+          { id: 'p2', activityId: m[1], description: 'VIP票 - 单人', price: 599, originalPrice: 799, person: 1 },
+        ],
+      }),
+    },
+  );
+
   // 拦截 uni.request
   const originalRequest = uni.request;
   // @ts-ignore
   uni.request = function (options: UniApp.RequestOptions) {
     const url = options.url || '';
 
-    // 检查是否有对应的 mock 数据
+    /** 统一构造 mock 成功响应 */
+    const respond = (mockData: any) => {
+      setTimeout(() => {
+        if (options.success) {
+          const res: UniApp.RequestSuccessCallbackResult = {
+            data: mockData,
+            statusCode: 200,
+            header: {},
+            cookies: [],
+            errMsg: 'request:ok',
+          };
+          options.success(res);
+        }
+        if (options.complete) {
+          options.complete({} as any);
+        }
+      }, 300);
+      const task: UniApp.RequestTask = {
+        abort: () => {},
+        onHeadersReceived: () => {},
+        offHeadersReceived: () => {},
+      };
+      return task;
+    };
+
+    // 1) 精确匹配 mockStore（保留 endsWith 兼容 baseUrl 拼接场景）
     for (const key of Object.keys(mockStore)) {
       if (url.endsWith(key)) {
-        const mockData = mockStore[key];
-        setTimeout(() => {
-          if (options.success) {
-            const res: UniApp.RequestSuccessCallbackResult = {
-              data: mockData,
-              statusCode: 200,
-              header: {},
-              cookies: [],
-              errMsg: 'request:ok',
-            };
-            options.success(res);
-          }
-          if (options.complete) {
-            options.complete({} as any);
-          }
-        }, 300);
-        const task: UniApp.RequestTask = {
-          abort: () => {},
-          onHeadersReceived: () => {},
-          offHeadersReceived: () => {},
-        };
-        return task;
+        return respond(mockStore[key]);
       }
     }
 
-    // 如果没有 mock 数据，调用原始请求
+    // 2) 正则路由兜底匹配；仅匹配 path 部分（去掉 query/host），避免误伤
+    const path = url.replace(/^https?:\/\/[^/]+/, '').split('?')[0];
+    for (const route of mockRoutes) {
+      const match = path.match(route.pattern);
+      if (match) {
+        return respond(route.resolve(match));
+      }
+    }
+
+    // 3) 都没命中，调用原始请求
     return originalRequest(options);
   };
 }
