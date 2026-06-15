@@ -57,8 +57,8 @@ importers:
         specifier: 3.0.0-4080420251103001
         version: 3.0.0-4080420251103001(postcss@8.4.49)(rollup@4.58.0)(vue@3.5.28(typescript@5.5.4))
       '@tdesign/uniapp':
-        specifier: 0.9.1
-        version: 0.9.1
+        specifier: 0.10.0
+        version: 0.10.0
       '@tdesign/uniapp-chat':
         specifier: latest
         version: 0.2.2
@@ -1678,8 +1678,8 @@ packages:
   '@tdesign/uniapp-chat@0.2.2':
     resolution: {integrity: sha512-utg/aQOMyJv8fyy10PNg8JAqiilOhKYF0BstZYwU5BG+AAse5H9uxnBjeF0rv81V3qCWq2l00f24gRdGSu9wuA==}
 
-  '@tdesign/uniapp@0.9.1':
-    resolution: {integrity: sha512-ir/84B+zE3vzL5IvXePbXb8XP9I6kmb1doTmsuFPSoMH46SfwVDo60hRJnDjCeLQnH183tQ4XqPEHsgATqztgg==}
+  '@tdesign/uniapp@0.10.0':
+    resolution: {integrity: sha512-0pBgrCf97DQQOiVsvhYlYhVK4BWSNlsnP8ruFfGP0102B4IdnywB/HK+YIdEAmwWiCuOrY1ZV6AKY+oioGN7NA==}
 
   '@tootallnate/once@1.1.2':
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
@@ -8417,7 +8417,7 @@ snapshots:
 
   '@tdesign/uniapp-chat@0.2.2': {}
 
-  '@tdesign/uniapp@0.9.1': {}
+  '@tdesign/uniapp@0.10.0': {}
 
   '@tootallnate/once@1.1.2': {}
 
